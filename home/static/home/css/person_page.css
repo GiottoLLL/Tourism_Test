@@ -1,0 +1,264 @@
+body {
+  font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, PingFang SC, Microsoft YaHei, Source Han Sans SC, Noto Sans CJK SC, WenQuanYi Micro Hei, sans-serif;
+  font-size: 15px;
+  color: #1a1a1a;
+  background: #f6f6f6;
+  -webkit-tap-highlight-color: rgba(26, 26, 26, 0);
+}
+
+.container {
+  width: 1032px;
+}
+
+.person-background {
+  position: relative;
+  height: 240px;
+  overflow: hidden;
+  background: #f6f6f6;
+  border-top-right-radius: 1px;
+  border-top-left-radius: 1px;
+  transition: height .3s;
+}
+
+.person-background img {
+  width: 100%;
+}
+
+.wrapper {
+  position: relative;
+  width: 100%;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.main {
+  position: relative;
+  margin: 0 20px 0 20px;
+  height: 132px;
+}
+
+.userAvatar {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  background-color: #fff;
+  border: 4px solid #fff;
+  border-radius: 8px;
+}
+
+.userAvatar img {
+  vertical-align: top;
+  border-radius: 4px;
+  background: #fff;
+
+}
+
+.content {
+  padding-top: 12px;
+  padding-left: 32px;
+  border-left: 164px solid transparent;
+}
+
+.content-head {
+  position: relative;
+  padding-right: 106px;
+  margin-bottom: 16px;
+}
+
+.head-title {
+  flex: 1 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin: 0;
+  display: block;
+}
+
+.title-name {
+  font-size: 26px;
+  font-weight: 600;
+  font-synthesis: style;
+  line-height: 30px;
+}
+
+.title-headline {
+  margin-left: 12px;
+  font-size: 18px;
+  white-space: nowrap;
+}
+
+.content-body {
+  overflow: hidden;
+  transition: height 300ms ease-out 0s;
+  height: 20px;
+  position: relative;
+  width: 524px;
+}
+
+.body-info {
+  font-size: 14px;
+  line-height: 20px;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.icon-wrapper {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  margin-right: 12px;
+  text-align: center;
+  color: #8590a6;
+}
+
+.foot-button {
+  line-height: 1;
+  height: auto;
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  display: inline-block;
+  font-size: 14px;
+  color: #8590a6;
+  text-align: center;
+  cursor: pointer;
+  background: none;
+  margin: 0;
+  outline: none;
+  -webkit-appearance: none;
+}
+
+.foot-button-right {
+  position: absolute;
+  right: 0;
+  bottom: 20px;
+
+}
+
+.Button-blue {
+  color: #0084ff;
+  border-color: #0084ff;
+}
+
+.Button {
+  display: inline-block;
+  padding: 0 16px;
+  font-size: 14px;
+  line-height: 32px;
+  text-align: center;
+  cursor: pointer;
+  background: none;
+  border: 1px solid;
+  border-radius: 3px;
+}
+
+.tabs {
+  display: inline-block;
+  padding: 0 20px;
+}
+
+.tabs-link {
+  position: relative;
+  display: inline-block;
+  padding: 14px 0;
+  font-size: 16px;
+  line-height: 22px;
+  color: #1a1a1a;
+  text-align: center;
+}
+
+.is-active {
+  font-weight: 600;
+  font-synthesis: style;
+}
+
+.tabs-link.is-active::after {
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 3px;
+  background: #0084ff;
+  content: "";
+}
+
+.card {
+  margin-bottom: 10px;
+  background: #fff;
+  overflow: hidden;
+  border-radius: 2px;
+  box-shadow: 0 1px 3px rgba(26, 26, 26, .1);
+  box-sizing: border-box;
+}
+
+.achievement-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+  padding: 0 20px;
+  border-bottom: 1px solid #f6f6f6;
+  box-sizing: border-box;
+}
+
+.achievement-headtext {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 600;
+  font-synthesis: style;
+}
+
+.head-icon {
+  display: flex;
+  margin-bottom: 12px;
+}
+
+.Button-plan {
+  height: auto;
+  padding: 0;
+  line-height: inherit;
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+}
+
+.NumberBoard-itemValue {
+  display: inline-block;
+  font-size: 18px;
+  color: #1a1a1a;
+  font-weight: 600;
+  font-synthesis: style;
+}
+
+.Profile-footerOperations {
+  width: 100%;
+  padding: 10px 0 10px 5px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  font-size: 14px;
+  line-height: 1.8;
+  text-align: left;
+  border-bottom: 1px solid #ebebeb;
+  color: #8590a6;
+}
+
+.Footer {
+  padding: 10px 0 10px 5px;
+  font-size: 13px;
+  line-height: 2;
+  color: #8590a6;
+}
+
+.Footer-item {
+  display: inline-block;
+  color: #8590a6;
+}
+
+.Footer-dot::after {
+  margin: 0 5px;
+  content: "\B7";
+}

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load staticfiles %}
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>旅游攻略系统</title>
+    <!-- 优先使用 IE 最新版本和 Chrome -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <!-- 启用360浏览器的极速模式(webkit) -->
+    <meta name="renderer" content="webkit">
+    <meta name="keywords" content="旅游攻略">
+    <meta name="description" content="旅游攻略系统是展示旅游攻略的网站">
+    <link rel="stylesheet" href="{% static 'home/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'home/css/font-awesome.css' %}">
+    <link rel="stylesheet" href="{% static 'home/css/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'home/css/login.css' %}">
+</head>
+<body>
+<div class="content"><!--注册页面主体-->
+  <div class="Card login-box" style="overflow: visible;">
+    <div style="padding:30px 0 5px 0;display: block;">
+      <h1>旅途</h1>
+      <div style="margin-top: 15px;color:#0084ff;font-size: 22px;">注册旅途，带你走遍这个世界</div>
+    </div>
+    <div id="register" style="position: relative;">
+      <div style="padding: 0 40px 36px;">
+        <form action="/register" method="POST">
+          {% csrf_token %}
+          <div class="account" style="margin-top: 16px;border-bottom: 1px solid #ebebeb;border-radius: 0;">
+            <div style="display: inline-block;float: left;min-width: 72px;transform: translateY(4px);"></div>
+            <div style="overflow: hidden;position: relative;">
+              <div style="width: auto;height: 48px;padding: 0;color:#8590a6;border-radius: 0;">
+                <!--<input type="text" name="username" maxlength="150" class="Input" placeholder="用户名" value="">-->
+                {{ register_form.username }}
+              </div>
+              <div class="errorMask" style="width: 0;height: 0;padding:0;margin: 0;opacity: 0;">
+                {% if login_form.captcha.errors %}
+                  <div class="errorMask">验证码错误</div>
+                {% else %}
+                  {% if message %}
+                    <div class="errorMask">{{ message }}</div>
+                  {% endif %}
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          <div class="password">
+            <div style="position: relative;">
+              <div style="width: 100%;height: 48px;padding: 0;color: #8590a6;border: none;border-radius: 0;box-sizing: border-box;transition: background .2s,border .2s;">
+                <!--<input type="password" name="password1" class="Input" placeholder="密码" value="">-->
+                {{ register_form.password1 }}
+              </div>
+            </div>
+          </div>
+          <div class="password">
+            <div style="position: relative;">
+              <div style="width: 100%;height: 48px;padding: 0;color: #8590a6;border: none;border-radius: 0;box-sizing: border-box;transition: background .2s,border .2s;">
+                <!--<input type="password" name="password2" class="Input" placeholder="确认密码" value="">-->
+                {{ register_form.password2 }}
+              </div>
+            </div>
+          </div>
+          <div class="password">
+            <div style="position: relative;">
+              <div style="width: 100%;height: 48px;padding: 0;color: #8590a6;border: none;border-radius: 0;box-sizing: border-box;transition: background .2s,border .2s;">
+                <!--<input type="password" name="password2" class="Input" placeholder="确认密码" value="">-->
+                {{ register_form.phone }}
+              </div>
+            </div>
+          </div>
+          <div class="password">
+            <div style="position: relative;">
+              <div style="width: 100%;height: 48px;padding: 12px 0 0 8px;color: #8590a6;border: none;border-radius: 0;box-sizing: border-box;transition: background .2s,border .2s;text-align: left">
+                <!--<input type="password" name="password2" class="Input" placeholder="确认密码" value="">-->
+                {{ register_form.sex.label_tag }}
+                {{ register_form.sex }}
+              </div>
+            </div>
+          </div>
+          <div class="password">
+            <div style="position: relative;">
+              <div style="width: 100%;height: 48px;padding: 5px 0 0 8px;color: #8590a6;border: none;border-radius: 0;box-sizing: border-box;transition: background .2s,border .2s;text-align: left">
+                <!--<input type="password" name="password2" class="Input" placeholder="确认密码" value="">-->
+                {{ register_form.captcha.label_tag }}
+                {{ register_form.captcha }}
+              </div>
+            </div>
+          </div>
+          <div class="login-options">
+          </div>
+          <button type="submit" class="submitButton button-blue">注册</button>
+        </form>
+      </div>
+      <div class="SignContainer-switch">
+        已有账号？<span onclick="login()">登录</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+  <script type="text/javascript">
+    function login() {
+      $(location).attr('href', 'login');
+    }
+  </script>
+  <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+  <script src="{% static 'home/js/jquery.min.js' %}"></script>
+  <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+  <script src="{% static 'home/js/bootstrap.min.js' %}"></script>
+</html>

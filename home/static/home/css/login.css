@@ -1,0 +1,118 @@
+  body{
+    height:100%;
+    width:100%;
+    background: url("../../home/images/2.jpg") no-repeat;
+  }
+  .content{
+    width:100%;
+    flex:1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2px;
+    min-height: 788px;
+    height:calc(100% - 42px);
+    box-sizing: border-box;
+  }
+  .login-box{
+    width: 432px;
+    margin:0 auto;
+    text-align: center;
+    background: #000;
+  }
+  .Card{
+    margin-bottom: 10px;
+    background: #fff;
+    overflow: hidden;
+    border-radius: 2px;
+    box-shadow: 0 1px 3px rgba(26,26,26,.1);
+    box-sizing: border-box;
+  }
+  .Input{
+    height:48px;
+    width:100%;
+    line-height: 24px;
+    flex:1;
+    padding-left:5px;
+    overflow: hidden;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    background: transparent;
+    border:none;
+    resize: none;
+  }
+  .errorMask{
+    position: absolute;
+    right: 0;
+    height: 90%;
+    padding: 12px 0 0 20px;
+    margin-top: -47px;
+    font-size: 14px;
+    color: #f1403c;
+    text-align: right;
+    cursor: text;
+    background: transparent;
+    opacity: 1;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-transition: opacity .25s ease;
+    transition: opacity .25s ease;
+  }
+  .errorMask::before{
+    position: absolute;
+    top:0;
+    left:-16px;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    opacity: 0;
+    background: linear-gradient(90deg, hsla(0,0%,100%,0), #fff);
+    content: '';
+  }
+  .password{
+    border-bottom: 1px solid #ebebeb;
+    position: relative;
+    margin-top: 12px;
+  }
+  .login-options{
+    margin-top: 12px;
+    height:20px;
+    display: flex;
+    justify-content: space-between;
+    background: #fff;
+  }
+  .button-plan{
+    height:auto;
+    padding:0;
+    line-height:inherit;
+    background-color: transparent;
+    border:none;
+    border-radius: 0;
+  }
+  .submitButton{
+    width:100%;
+    margin-top:30px;
+    height:36px;
+    border-radius: 3px;
+  }
+  .button-blue{
+    color: #fff;
+    background-color: #0084ff;
+    border-color: #0084ff;
+  }
+  .SignContainer-switch{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    background-color: #f6f6f6;
+    height: 58px;
+    border-top: 1px solid #ebebeb;
+    font-size: 16px;
+  }
+  .SignContainer-switch span{
+    color: #175199;
+    cursor: pointer;
+  }
