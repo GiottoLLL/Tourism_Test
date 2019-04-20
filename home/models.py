@@ -3,6 +3,7 @@ from django.db import models
 from django.utils import timezone
 from stdimage.models import StdImageField
 from stdimage.utils import UploadToUUID
+from ckeditor_uploader.fields import RichTextUploadingField
 
 
 # Create your models here.
@@ -14,6 +15,7 @@ class User(models.Model):
         ('female', '女'),
 
     )
+
     username = models.CharField(max_length=128, verbose_name="用户名",  unique=True)
     password = models.CharField(max_length=256, verbose_name="密码")
     phone = models.CharField(
@@ -37,6 +39,7 @@ class User(models.Model):
         blank=True,
         verbose_name="背景图"
     )
+
     sign = models.CharField(max_length=64, null=True, blank=True, verbose_name="一句话介绍")
     introduce = models.CharField(max_length=200, null=True, blank=True, verbose_name="个人简介")
     c_time = models.DateTimeField(auto_now_add=True)
@@ -67,3 +70,22 @@ class User(models.Model):
         verbose_name = '旅途用户'
         verbose_name_plural = '旅途用户'
 
+
+class Strategy(models.Model):
+    state = (
+        ('review', '审核中'),
+        ('publish', '已发布'),
+        ('nopass', '建议修改')
+    )
+    title = models.CharField(max_length=100, blank=True)
+    content = RichTextUploadingField(verbose_name='攻略', default=None, blank=True)
+    up = models.IntegerField(default=0)
+    collection = models.IntegerField(default=0)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    s_state = models.CharField(max_length=32, choices=state, default='审核中', verbose_name="攻略状态", blank=True)
+    users_like = models.ManyToManyField(User, related_name="strategy_like", blank=True)
+
+    class Meta:
+        ordering = ("title", )
+        verbose_name = '攻略文章'
+        verbose_name_plural = '攻略文章'

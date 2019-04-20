@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     'xadmin',
     'crispy_forms',
     'captcha',
-    'stdimage'
+    'stdimage',
+    'ckeditor',
+    'ckeditor_uploader',
 ]
 
 MIDDLEWARE = [
@@ -128,7 +130,32 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [(os.path.join(BASE_DIR,'static'))]
-
+STATICFILES_DIRS = [(os.path.join(BASE_DIR, 'static'))]
+STATIC_ROOT = os.path.join(BASE_DIR, "static1")
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+CKEDITOR_UPLOAD_PATH = 'content/ckeditor/'
+CKEDITOR_IMAGE_BACKEND = 'pillow'
+CKEDITOR_CONFIGS = {
+    # 配置名是default时，django-ckeditor默认使用这个配置
+    'default': {
+        # 使用简体中文
+        'language': 'zh-cn',
+        # 编辑器的宽高请根据你的页面自行设置
+        'width': '660px',
+        'height': '300px',
+        'image_previewText': ' ',
+        'tabSpaces': 4,
+        'toolbar': 'Custom',
+        # 添加按钮在这里
+        'toolbar_Custom': [
+            ['Bold', 'Italic', 'Underline', 'Format','Font', 'FontSize',  'RemoveFormat'],
+            ['NumberedList', 'BulletedList'],
+            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', 'Blockquote', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+            ['Image', 'Link', 'Unlink'],
+            ['Maximize']
+        ],
+        # 插件
+        'extraPlugins': ','.join(['codesnippet','uploadimage','widget','lineutils',]),
+    }
+}

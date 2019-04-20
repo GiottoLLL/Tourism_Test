@@ -2,10 +2,11 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect, JsonResponse, Http404
 from django.urls import reverse
 from django.views import generic
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from home import models
-from .form import UserForm, RegisterForm
+from .form import UserForm, RegisterForm, WriteForm
 import hashlib
 
 
@@ -28,10 +29,8 @@ def index(request):
         if request.session['is_login'] is not True:
             return redirect('login')
         else:
-            return render(request, 'home/index.html', {
-            'titles': ['推荐', '关注', '热门'],
-            'my_content': ['我的主页', '我的攻略', '设置'],
-            })
+            strategy = models.Strategy.objects.all().order_by('id')
+            return render(request, 'home/index.html',locals())
     else:
         return redirect('login')
 
@@ -123,16 +122,15 @@ def person_page(request):
     })
 
 
-def detail_page(request):
+def detail_page(request, strategy_id):
     """
     攻略详情页面
     :param request: 
     :return: 
     """
-    return render(request, 'home/detail_page.html', {
-        'titles': ['推荐', '关注', '热门'],
-        'my_content': ['我的主页', '我的攻略', '设置']
-    })
+
+    strategy = models.Strategy.objects.get(id=strategy_id)
+    return render(request, 'home/detail_page.html', locals())
 
 
 def edit_page(request):
@@ -145,3 +143,70 @@ def edit_page(request):
         'titles': ['推荐', '关注', '热门'],
         'my_content': ['我的主页', '我的攻略', '设置']
     })
+
+
+def write_page(request):
+    """
+    写攻略页面
+    :param request: 
+    :return: 
+    """
+    if request.session.get('is_login', None):
+        if request.session['is_login'] is not True:
+            return redirect('login')
+    if request.method == "POST":
+        write_form = WriteForm(request.POST)
+        if write_form.is_valid():
+            title = write_form.cleaned_data['title']
+            content = write_form.cleaned_data['content']
+            user_id = request.session['user_id']
+            user = models.User.objects.get(id=user_id)
+
+            # 创建新文章
+            new_strategy = models.Strategy.objects.create(
+                title=title,
+                content=content,
+                author_id=user_id,
+                s_state='review'
+            )
+            new_strategy.save()
+            return render(request, 'home/write_page.html', {'success': '发布成功'})
+        else:
+            message = "上传出错，请重试"
+            return render(request, 'home/write_page.html', locals())
+    write_form = WriteForm()
+    return render(request, 'home/write_page.html', locals())
+
+
+def up_add(request, strategy_id):
+    """点赞设置"""
+    if request.is_ajax():
+        strategy = models.Strategy.objects.filter(id=strategy_id)[0]
+        strategy.up += 1
+        strategy.save()
+        result = {'type': 'ok'}
+        return JsonResponse(result)
+
+@csrf_exempt
+def like_strategy(request):
+    strategy_id = request.POST.get("id")
+    user_id = request.session['user_id']
+    user = models.User.objects.get(id=user_id)
+    if strategy_id:
+        try:
+            strategy = models.Strategy.objects.get(id=strategy_id)
+            if models.Strategy.objects.filter(users_like=user_id):
+                strategy.users_like.remove(user)
+                sum = strategy.users_like.count()
+                result = {'type': 'down',
+                          'sum': sum}
+                return JsonResponse(result)
+            else:
+                strategy.users_like.add(user)
+                sum = strategy.users_like.count()
+                result = {'type': 'up',
+                          'sum': sum}
+                return JsonResponse(result)
+        except:
+            result = {'type': 'error'}
+            return JsonResponse(result)

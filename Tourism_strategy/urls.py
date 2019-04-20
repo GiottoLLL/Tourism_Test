@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from django.conf.urls.static import static
+from django.conf import settings
 import xadmin
 
 urlpatterns = [
@@ -22,4 +24,6 @@ urlpatterns = [
     path('xadmin/', xadmin.site.urls),
     path('', include('home.urls')),
     path('', include('captcha.urls')),
+    path('', include('ckeditor_uploader.urls')),
 ]
+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

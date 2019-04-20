@@ -123,7 +123,7 @@
             查看详细资料
           </button>
           <div class="foot-button-right">
-            <button type="button" class="Button-blue Button">
+            <button type="button" class="Button-blue Button" onclick="edit()">
               编辑个人资料
             </button>
           </div>
@@ -267,6 +267,11 @@ glyphicon glyphicon-heart" style="margin-right: 3px;"></span>感谢
   </div>
 </div>
 </body>
+<script type="text/javascript">
+    function edit() {
+      $(location).attr('href', 'edit');
+    }
+  </script>
 <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
 <script src="{% static 'home/js/jquery.min.js' %}"></script>
 <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->

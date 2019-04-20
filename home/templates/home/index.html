@@ -17,8 +17,8 @@
   <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
   <![endif]-->
   <style type="text/css">
-    .container{
-      width:1032px;
+    .container {
+      width: 1032px;
     }
   </style>
 </head>
@@ -34,30 +34,28 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">旅途</a>
+      <a class="navbar-brand" href="{% url 'index' %}">旅途</a>
     </div>
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      {% if titles %}
-        <ul class="nav navbar-nav">
-          {% for tabbar in titles %}
-            <li><a href="#">{{ tabbar }}</a></li>
-          {% endfor %}
-          <!-- 下拉菜单 -->
-          <!--<li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li><a href="#">Action</a></li>
-              <li><a href="#">Another action</a></li>
-              <li><a href="#">Something else here</a></li>
-              <li role="separator" class="divider"></li>
-              <li><a href="#">Separated link</a></li>
-              <li role="separator" class="divider"></li>
-              <li><a href="#">One more separated link</a></li>
-            </ul>
-          </li>-->
-        </ul>
-      {% endif %}
+      <ul class="nav navbar-nav">
+        <li><a href="#">推荐</a></li>
+        <li><a href="#">关注</a></li>
+        <li><a href="#">热门</a></li>
+        <!-- 下拉菜单 -->
+        <!--<li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">One more separated link</a></li>
+          </ul>
+        </li>-->
+      </ul>
       <form class="navbar-form navbar-left">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Search">
@@ -69,22 +67,13 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
              aria-expanded="false">内容 <span class="caret"></span></a>
-          {#          <ul class="dropdown-menu">#}
-          {#            <li><a href="#">我的主页</a></li>#}
-          {#            <li><a href="#">我的攻略</a></li>#}
-          {#            <li><a href="#">设置</a></li>#}
-          {#            <li role="separator" class="divider"></li>#}
-          {#            <li><a href="#">退出</a></li>#}
-          {#          </ul>#}
-          {% if my_content %}
-            <ul class="dropdown-menu">
-              {% for content in my_content %}
-                <li><a href="#">{{ content }}</a></li>
-              {% endfor %}
-              <li role="separator" class="divider"></li>
-              <li><a href="{% url 'logout' %}">退出</a></li>
-            </ul>
-          {% endif %}
+          <ul class="dropdown-menu">
+            <li><a href="#">我的主页</a></li>
+            <li><a href="#">我的攻略</a></li>
+            <li><a href="#">设置</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="{% url 'logout' %}">退出</a></li>
+          </ul>
         </li>
       </ul>
       <script></script>
@@ -97,7 +86,39 @@
 </div>
 <div class="container" style="height: 1200px;display: flex;flex-direction: row;margin-bottom: 100px;">
   <div style="width: 70%;height: 100%;margin-right: 1%;background: #ffffff;">
-    <div style="width: 100%;height: 200px;padding:0 20px 20px 20px;border-bottom: 1px solid #eeeeee;">
+    {% for item in strategy %}
+      <div style="width: 100%;height: 200px;padding:0 20px 20px 20px;border-bottom: 1px solid #eeeeee;">
+        <a href="{% url 'detail' item.id %}" style="color: #777;"><h3>{{ item.title }}</h3></a>
+        <div style="display: flex;flex-direction: row;" onclick="window.location.href='{% url 'detail' item.id %}'">
+          <img src="../../static/home/images/april.jpg" alt=""
+               style="height: 100px;width: 160px;border: 1px solid #eeeeee;margin-right: 20px;">
+          <div style="font-size: 15px;height: 110px;overflow: hidden;text-overflow: ellipsis;" onclick="window.location.href='{% url 'detail' item.id %}'">
+            {% autoescape off %}
+              {{ item.content }}
+            {% endautoescape %}
+          </div>
+        </div>
+        <div style="display: flex;flex-direction: row;margin-top: 10px;padding-left: 5px;">
+          <button type="button" class="btn btn-default" style="margin-right: 5px;"><span
+                  class="glyphicon glyphicon-triangle-top"></span>赞同 {{ item.up }}
+          </button>
+          <button type="button" class="btn btn-default" style="margin-right: 10px;"><span
+                  class="glyphicon glyphicon-triangle-bottom"></span></button>
+          <button type="button" class="btn btn-default" style="margin-right: 5px;border: none;">9条评论</button>
+          <button type="button" class="btn btn-default" style="margin-right: 5px;border: none;"><span class="
+glyphicon glyphicon-share" style="margin-right: 3px;"></span>分享
+          </button>
+          <button type="button" class="btn btn-default" style="margin-right: 5px;border: none;"><span class="
+glyphicon glyphicon-star" style="margin-right: 3px;"></span>收藏
+          </button>
+          <button type="button" class="btn btn-default" style="margin-right: 5px;border: none;"><span class="
+glyphicon glyphicon-heart" style="margin-right: 3px;"></span>感谢
+          </button>
+        </div>
+      </div>
+    {% endfor %}
+    <!--静态-->
+    <!--<div style="width: 100%;height: 200px;padding:0 20px 20px 20px;border-bottom: 1px solid #eeeeee;">
       <h3>标题</h3>
       <div style="display: flex;flex-direction: row;">
         <img src="../../static/home/images/april.jpg" alt=""
@@ -125,132 +146,17 @@ glyphicon glyphicon-star" style="margin-right: 3px;"></span>收藏
 glyphicon glyphicon-heart" style="margin-right: 3px;"></span>感谢
         </button>
       </div>
-    </div>
-    <div style="width: 100%;height: 200px;padding:0 20px 20px 20px;border-bottom: 1px solid #eeeeee;">
-      <h3>标题</h3>
-      <div style="display: flex;flex-direction: row;">
-        <img src="../../static/home/images/april.jpg" alt=""
-             style="height: 100px;width: 160px;border: 1px solid #eeeeee;margin-right: 20px;">
-        <div style="font-size: 15px;height: 110px;overflow: hidden;text-overflow: ellipsis;">
-          伦巴第区主要的高山风景由斯泰尔维奥国家公园保护起来，这是意大利较大的国家公园。这块山区运动场提供了许多滑雪机会，也有将近1000英里（1600公里）配有路标的远足小路。博尔米奥镇（Bormlo）是较好的观赏点，东面有一个壮观的峡谷——泽布鲁山谷（Valle
-          dello Zebrù），是初次来这里徒步旅行的游客的首选。
-
-        </div>
-      </div>
-      <div style="display: flex;flex-direction: row;margin-top: 10px;padding-left: 5px;">
-        <button type="button" class="btn btn-default" style="margin-right: 5px;"><span
-                class="glyphicon glyphicon-triangle-top"></span>赞同 14
-        </button>
-        <button type="button" class="btn btn-default" style="margin-right: 10px;"><span
-                class="glyphicon glyphicon-triangle-bottom"></span></button>
-        <button type="button" class="btn btn-default" style="margin-right: 5px;border: none;">9条评论</button>
-        <button type="button" class="btn btn-default" style="margin-right: 5px;border: none;"><span class="
-glyphicon glyphicon-share" style="margin-right: 3px;"></span>分享
-        </button>
-        <button type="button" class="btn btn-default" style="margin-right: 5px;border: none;"><span class="
-glyphicon glyphicon-star" style="margin-right: 3px;"></span>收藏
-        </button>
-        <button type="button" class="btn btn-default" style="margin-right: 5px;border: none;"><span class="
-glyphicon glyphicon-heart" style="margin-right: 3px;"></span>感谢
-        </button>
-      </div>
-    </div>
-    <div style="width: 100%;height: 200px;padding:0 20px 20px 20px;border-bottom: 1px solid #eeeeee;">
-      <h3>标题</h3>
-      <div style="display: flex;flex-direction: row;">
-        <img src="../../static/home/images/april.jpg" alt=""
-             style="height: 100px;width: 160px;border: 1px solid #eeeeee;margin-right: 20px;">
-        <div style="font-size: 15px;height: 110px;overflow: hidden;text-overflow: ellipsis;">
-          伦巴第区主要的高山风景由斯泰尔维奥国家公园保护起来，这是意大利较大的国家公园。这块山区运动场提供了许多滑雪机会，也有将近1000英里（1600公里）配有路标的远足小路。博尔米奥镇（Bormlo）是较好的观赏点，东面有一个壮观的峡谷——泽布鲁山谷（Valle
-          dello Zebrù），是初次来这里徒步旅行的游客的首选。
-
-        </div>
-      </div>
-      <div style="display: flex;flex-direction: row;margin-top: 10px;padding-left: 5px;">
-        <button type="button" class="btn btn-default" style="margin-right: 5px;"><span
-                class="glyphicon glyphicon-triangle-top"></span>赞同 14
-        </button>
-        <button type="button" class="btn btn-default" style="margin-right: 10px;"><span
-                class="glyphicon glyphicon-triangle-bottom"></span></button>
-        <button type="button" class="btn btn-default" style="margin-right: 5px;border: none;">9条评论</button>
-        <button type="button" class="btn btn-default" style="margin-right: 5px;border: none;"><span class="
-glyphicon glyphicon-share" style="margin-right: 3px;"></span>分享
-        </button>
-        <button type="button" class="btn btn-default" style="margin-right: 5px;border: none;"><span class="
-glyphicon glyphicon-star" style="margin-right: 3px;"></span>收藏
-        </button>
-        <button type="button" class="btn btn-default" style="margin-right: 5px;border: none;"><span class="
-glyphicon glyphicon-heart" style="margin-right: 3px;"></span>感谢
-        </button>
-      </div>
-    </div>
-    <div style="width: 100%;height: 200px;padding:0 20px 20px 20px;border-bottom: 1px solid #eeeeee;">
-      <h3>标题</h3>
-      <div style="display: flex;flex-direction: row;">
-        <img src="../../static/home/images/april.jpg" alt=""
-             style="height: 100px;width: 160px;border: 1px solid #eeeeee;margin-right: 20px;">
-        <div style="font-size: 15px;height: 110px;overflow: hidden;text-overflow: ellipsis;">
-          伦巴第区主要的高山风景由斯泰尔维奥国家公园保护起来，这是意大利较大的国家公园。这块山区运动场提供了许多滑雪机会，也有将近1000英里（1600公里）配有路标的远足小路。博尔米奥镇（Bormlo）是较好的观赏点，东面有一个壮观的峡谷——泽布鲁山谷（Valle
-          dello Zebrù），是初次来这里徒步旅行的游客的首选。
-
-        </div>
-      </div>
-      <div style="display: flex;flex-direction: row;margin-top: 10px;padding-left: 5px;">
-        <button type="button" class="btn btn-default" style="margin-right: 5px;"><span
-                class="glyphicon glyphicon-triangle-top"></span>赞同 14
-        </button>
-        <button type="button" class="btn btn-default" style="margin-right: 10px;"><span
-                class="glyphicon glyphicon-triangle-bottom"></span></button>
-        <button type="button" class="btn btn-default" style="margin-right: 5px;border: none;">9条评论</button>
-        <button type="button" class="btn btn-default" style="margin-right: 5px;border: none;"><span class="
-glyphicon glyphicon-share" style="margin-right: 3px;"></span>分享
-        </button>
-        <button type="button" class="btn btn-default" style="margin-right: 5px;border: none;"><span class="
-glyphicon glyphicon-star" style="margin-right: 3px;"></span>收藏
-        </button>
-        <button type="button" class="btn btn-default" style="margin-right: 5px;border: none;"><span class="
-glyphicon glyphicon-heart" style="margin-right: 3px;"></span>感谢
-        </button>
-      </div>
-    </div>
-    <div style="width: 100%;height: 200px;padding:0 20px 20px 20px;border-bottom: 1px solid #eeeeee;">
-      <h3>标题</h3>
-      <div style="display: flex;flex-direction: row;">
-        <img src="../../static/home/images/april.jpg" alt=""
-             style="height: 100px;width: 160px;border: 1px solid #eeeeee;margin-right: 20px;">
-        <div style="font-size: 15px;height: 110px;overflow: hidden;text-overflow: ellipsis;">
-          伦巴第区主要的高山风景由斯泰尔维奥国家公园保护起来，这是意大利较大的国家公园。这块山区运动场提供了许多滑雪机会，也有将近1000英里（1600公里）配有路标的远足小路。博尔米奥镇（Bormlo）是较好的观赏点，东面有一个壮观的峡谷——泽布鲁山谷（Valle
-          dello Zebrù），是初次来这里徒步旅行的游客的首选。
-
-        </div>
-      </div>
-      <div style="display: flex;flex-direction: row;margin-top: 10px;padding-left: 5px;">
-        <button type="button" class="btn btn-default" style="margin-right: 5px;"><span
-                class="glyphicon glyphicon-triangle-top"></span>赞同 14
-        </button>
-        <button type="button" class="btn btn-default" style="margin-right: 10px;"><span
-                class="glyphicon glyphicon-triangle-bottom"></span></button>
-        <button type="button" class="btn btn-default" style="margin-right: 5px;border: none;">9条评论</button>
-        <button type="button" class="btn btn-default" style="margin-right: 5px;border: none;"><span class="
-glyphicon glyphicon-share" style="margin-right: 3px;"></span>分享
-        </button>
-        <button type="button" class="btn btn-default" style="margin-right: 5px;border: none;"><span class="
-glyphicon glyphicon-star" style="margin-right: 3px;"></span>收藏
-        </button>
-        <button type="button" class="btn btn-default" style="margin-right: 5px;border: none;"><span class="
-glyphicon glyphicon-heart" style="margin-right: 3px;"></span>感谢
-        </button>
-      </div>
-    </div>
-
+    </div>-->
   </div>
   <div style="width: 29%;height: 100%;">
     <div style="height: 90px;width: 100%;padding-top:20px;background: #ffffff;" class="text-center">
-      <button type="button" class="btn btn-default btn-lg" style="margin-right: 30px;font-size: 14px;padding: 0;border: 0;">
+      <button type="button" class="btn btn-default btn-lg"
+              style="margin-right: 30px;font-size: 14px;padding: 0;border: 0;" onclick="gowrite();">
         <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
         <div style="margin-top: 10px;">写攻略</div>
       </button>
-      <button type="button" class="btn btn-default btn-lg" style="margin-right: 30px;font-size: 14px;padding: 0;border: 0;">
+      <button type="button" class="btn btn-default btn-lg"
+              style="margin-right: 30px;font-size: 14px;padding: 0;border: 0;">
         <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
         <div style="margin-top: 10px;">写文章</div>
       </button>
@@ -264,27 +170,35 @@ glyphicon glyphicon-heart" style="margin-right: 3px;"></span>感谢
     </div>
     <div style="width: 100%;margin-top: 20px;background: #ffffff;" class="">
 
-      <a href="#" class="list-group-item"><span class="glyphicon glyphicon-star" aria-hidden="true"
+      <a href="{% url 'person' %}" class="list-group-item"><span class="glyphicon glyphicon-star" aria-hidden="true"
                                                 style="margin-right: 10px;"></span>我的收藏<span class="badge">14</span></a>
-      <a href="#" class="list-group-item"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"
+      <a href="{% url 'person' %}" class="list-group-item"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"
                                                 style="margin-right: 10px;"></span>我的关注<span class="badge">3</span></a>
-      <a href="#" class="list-group-item"><span class="glyphicon glyphicon-plane" aria-hidden="true"
+      <a href="{% url 'person' %}" class="list-group-item"><span class="glyphicon glyphicon-plane" aria-hidden="true"
                                                 style="margin-right: 10px;"></span>我的攻略<span class="badge">2</span></a>
 
     </div>
     <footer class="Footer">
-        <a href="" class="Footer-item" target="_blank" rel="noreferrer noopener">旅途协议</a>
-        <span class="Footer-dot"></span>
-        <a href="" class="Footer-item" target="_blank" rel="noreferrer noopener">旅途指南</a>
-        <span class="Footer-dot"></span>
-        <a href="http://www.12377.cn" class="Footer-item" target="_blank" rel="noreferrer noopener">网上有害信息举报专区</a>
-        <span class="Footer-dot"></span>
-        <a href="" class="Footer-item" target="_blank" rel="noreferrer noopener">联系我们</a>
-        <span class="Footer-item">© 2019 旅途</span>
+      <a href="" class="Footer-item" target="_blank" rel="noreferrer noopener">旅途协议</a>
+      <span class="Footer-dot"></span>
+      <a href="" class="Footer-item" target="_blank" rel="noreferrer noopener">旅途指南</a>
+      <span class="Footer-dot"></span>
+      <a href="http://www.12377.cn" class="Footer-item" target="_blank" rel="noreferrer noopener">网上有害信息举报专区</a>
+      <span class="Footer-dot"></span>
+      <a href="" class="Footer-item" target="_blank" rel="noreferrer noopener">联系我们</a>
+      <span class="Footer-item">© 2019 旅途</span>
     </footer>
   </div>
 </div>
 </body>
+<script type="text/javascript">
+  function gowrite() {
+    $(location).attr('href', 'write');
+  }
+  function godetail() {
+    $(location).attr('href', 'detail'+item.id);
+  }
+</script>
 <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
 <script src="{% static 'home/js/jquery.min.js' %}"></script>
 <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->

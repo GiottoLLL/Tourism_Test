@@ -6,6 +6,7 @@
 # @Software: PyCharm
 from django import forms
 from captcha.fields import CaptchaField
+from ckeditor_uploader.fields import RichTextUploadingFormField
 
 
 class UserForm(forms.Form):
@@ -28,3 +29,9 @@ class RegisterForm(forms.Form):
     phone = forms.IntegerField(label="手机号", widget=forms.TextInput(attrs={'class': 'Input', 'placeholder': "手机号"}))
     sex = forms.ChoiceField(label='性别', choices=gender)
     captcha = CaptchaField(label='验证码')
+
+
+class WriteForm(forms.Form):
+    title = forms.CharField(label="标题", max_length=50,
+                               widget=forms.TextInput(attrs={'class': 'title-input', 'placeholder': "请输入标题（最多50个字）"}))
+    content = RichTextUploadingFormField(label='内容')
