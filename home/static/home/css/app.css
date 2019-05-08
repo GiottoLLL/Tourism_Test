@@ -65,10 +65,10 @@
     margin-right: 20px;
 }
 .publish-button{
-  border:1px solid #b3b3b3;
+  border:1px solid #0077e6;
   border-radius: 3px;
   padding:2px 22px;
-  color: #b3b3b3;
+  color: #0077e6;
 }
 .content{
   width: 660px;
@@ -94,4 +94,20 @@
 .Button--blue {
     border-color: #0080ff;
     color: #0080ff;
+}
+.img-box{
+  width: 100%;
+  min-height: 192px;
+  background: #f6f6f6;
+  display: flex;
+  flex-direction:column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+.img-read {
+    height: 405px;
+    width: 660px;
+    object-fit: cover;
 }

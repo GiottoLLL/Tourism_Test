@@ -2,6 +2,7 @@
 <html lang="zh-CN">
 <head>
   {% load staticfiles %}
+
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,6 +16,8 @@
   <!--[if lt IE 9]>
   <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+  <script src="{% static 'home/js/jquery.min.js' %}"></script>
   <![endif]-->
   <style type="text/css">
     .container {
@@ -23,98 +26,42 @@
   </style>
 </head>
 <body style="background: #F6F6F6;">
-<nav class="navbar navbar-default navbar-fixed-top">
-  <div class="container-fluid container">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-              data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="{% url 'index' %}">旅途</a>
-    </div>
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li><a href="#">推荐</a></li>
-        <li><a href="#">关注</a></li>
-        <li><a href="#">热门</a></li>
-        <!-- 下拉菜单 -->
-        <!--<li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">One more separated link</a></li>
-          </ul>
-        </li>-->
-      </ul>
-      <form class="navbar-form navbar-left">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search">
-        </div>
-        <button type="submit" class="btn btn-default">查找</button>
-      </form>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">{{ request.session.user_name }}</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-             aria-expanded="false">内容 <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">我的主页</a></li>
-            <li><a href="#">我的攻略</a></li>
-            <li><a href="#">设置</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="{% url 'logout' %}">退出</a></li>
-          </ul>
-        </li>
-      </ul>
-      <script></script>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
-<!--地图位置-->
-<div class="jumbotron container" style="margin-top: 70px;">
-  <h1>地图</h1>
-</div>
-<div class="container" style="height: 1200px;display: flex;flex-direction: row;margin-bottom: 100px;">
-  <div style="width: 70%;height: 100%;margin-right: 1%;background: #ffffff;">
+{% include 'home/nav.html' %}
+<div class="container" style="min-height: 600px;display: flex;flex-direction: row;margin-bottom: 100px;margin-top: 100px;">
+  <div style="width: 70%;height: 100%;margin-right: 1%;background: #ffffff;" class="left">
     {% for item in strategy %}
-      <div style="width: 100%;height: 200px;padding:0 20px 20px 20px;border-bottom: 1px solid #eeeeee;">
+      <div style="width: 100%;padding:0 20px 20px 20px;border-bottom: 1px solid #eeeeee;overflow: hidden">
         <a href="{% url 'detail' item.id %}" style="color: #777;"><h3>{{ item.title }}</h3></a>
         <div style="display: flex;flex-direction: row;" onclick="window.location.href='{% url 'detail' item.id %}'">
-          <img src="../../static/home/images/april.jpg" alt=""
-               style="height: 100px;width: 160px;border: 1px solid #eeeeee;margin-right: 20px;">
-          <div style="font-size: 15px;height: 110px;overflow: hidden;text-overflow: ellipsis;" onclick="window.location.href='{% url 'detail' item.id %}'">
+          <div>
+        {% if item.img %}
+          <img src="{{ MEDIA_URL }}{{ item.img }}" alt=""
+               class="strategy-img">
+          {% else %}
+          <img src="{{ MEDIA_URL }}april.jpg" alt=""
+               class="strategy-img">
+        {% endif %}
+          </div>
+          <div class="rich-content" style="" onclick="window.location.href='{% url 'detail' item.id %}'">
             {% autoescape off %}
               {{ item.content }}
             {% endautoescape %}
           </div>
         </div>
-        <div style="display: flex;flex-direction: row;margin-top: 10px;padding-left: 5px;">
-          <button type="button" class="btn btn-default" style="margin-right: 5px;"><span
-                  class="glyphicon glyphicon-triangle-top"></span>赞同 {{ item.up }}
+        <!--<div style="display: flex;flex-direction: row;margin-top: 10px;padding-left: 5px;">
+          <button type="button" class="btn btn-default up" style="margin-right: 15px;" value="{{ item.id }}">
+            <span class="glyphicon glyphicon-triangle-top"></span>赞同 <span class="count">{{ item.users_like_count }}</span>
           </button>
           <button type="button" class="btn btn-default" style="margin-right: 10px;"><span
                   class="glyphicon glyphicon-triangle-bottom"></span></button>
-          <button type="button" class="btn btn-default" style="margin-right: 5px;border: none;">9条评论</button>
+          <button type="button" class="btn btn-default" style="margin-right: 5px;border: none;">{{ item.comment_count }}条评论</button>
           <button type="button" class="btn btn-default" style="margin-right: 5px;border: none;"><span class="
 glyphicon glyphicon-share" style="margin-right: 3px;"></span>分享
           </button>
           <button type="button" class="btn btn-default" style="margin-right: 5px;border: none;"><span class="
-glyphicon glyphicon-star" style="margin-right: 3px;"></span>收藏
+glyphicon glyphicon-star" style="margin-right: 3px;" onclick="window.location.href='{% url 'detail' item.id %}'"></span>收藏
           </button>
-          <button type="button" class="btn btn-default" style="margin-right: 5px;border: none;"><span class="
-glyphicon glyphicon-heart" style="margin-right: 3px;"></span>感谢
-          </button>
-        </div>
+        </div>-->
       </div>
     {% endfor %}
     <!--静态-->
@@ -148,7 +95,7 @@ glyphicon glyphicon-heart" style="margin-right: 3px;"></span>感谢
       </div>
     </div>-->
   </div>
-  <div style="width: 29%;height: 100%;">
+  <div style="width: 29%;height: 100%;" class="right">
     <div style="height: 90px;width: 100%;padding-top:20px;background: #ffffff;" class="text-center">
       <button type="button" class="btn btn-default btn-lg"
               style="margin-right: 30px;font-size: 14px;padding: 0;border: 0;" onclick="gowrite();">
@@ -156,27 +103,25 @@ glyphicon glyphicon-heart" style="margin-right: 3px;"></span>感谢
         <div style="margin-top: 10px;">写攻略</div>
       </button>
       <button type="button" class="btn btn-default btn-lg"
-              style="margin-right: 30px;font-size: 14px;padding: 0;border: 0;">
-        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-        <div style="margin-top: 10px;">写文章</div>
+              style="margin-right: 30px;font-size: 14px;padding: 0;border: 0;"  onclick="window.location.href='{% url 'person' 'content1' %}'">
+        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+        <div style="margin-top: 10px;">个人主页</div>
       </button>
-      <button type="button" class="btn btn-default btn-lg" style="font-size: 14px;padding: 0;border: 0;">
+      <button type="button" class="btn btn-default btn-lg" style="font-size: 14px;padding: 0;border: 0;"  onclick="window.location.href='{% url 'edit' %}'">
         <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-        <div style="margin-top: 10px;">写想法</div>
+        <div style="margin-top: 10px;">编辑资料</div>
       </button>
     </div>
     <div style="height: 200px;width: 100%;background: #ffffff;margin-top: 20px;padding: 10px;">
       <h1>广告图位置</h1>
     </div>
-    <div style="width: 100%;margin-top: 20px;background: #ffffff;" class="">
-
-      <a href="{% url 'person' %}" class="list-group-item"><span class="glyphicon glyphicon-star" aria-hidden="true"
-                                                style="margin-right: 10px;"></span>我的收藏<span class="badge">14</span></a>
-      <a href="{% url 'person' %}" class="list-group-item"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"
-                                                style="margin-right: 10px;"></span>我的关注<span class="badge">3</span></a>
-      <a href="{% url 'person' %}" class="list-group-item"><span class="glyphicon glyphicon-plane" aria-hidden="true"
-                                                style="margin-right: 10px;"></span>我的攻略<span class="badge">2</span></a>
-
+    <div style="width: 100%;margin-bottom: 10px;background: #ffffff;" class="">
+      <a href="{% url 'person' 'collection' %}" class="list-group-item"><span class="glyphicon glyphicon-star" aria-hidden="true"
+                                                style="margin-right: 10px;"></span>我的收藏<span class="badge">{{ user_collection.count }}</span></a>
+      <a href="{% url 'person' 'follow' %}" class="list-group-item"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"
+                                                style="margin-right: 10px;"></span>我的关注<span class="badge">{{ follow.count }}</span></a>
+      <a href="{% url 'person' 'strategy' %}" class="list-group-item"><span class="glyphicon glyphicon-plane" aria-hidden="true"
+                                                style="margin-right: 10px;"></span>我的攻略<span class="badge">{{ strategy.count }}</span></a>
     </div>
     <footer class="Footer">
       <a href="" class="Footer-item" target="_blank" rel="noreferrer noopener">旅途协议</a>
@@ -198,9 +143,25 @@ glyphicon glyphicon-heart" style="margin-right: 3px;"></span>感谢
   function godetail() {
     $(location).attr('href', 'detail'+item.id);
   }
+  $(function () {
+    $('.up').click(function () {
+      var t = $(this)
+      $.ajax({
+        url: '{% url 'like' %}',
+        type: 'POST',
+        data: {
+          id: $(this).val(),
+        },
+        cache: false,
+        success: function (result) {
+          console.log('re', t);
+          value = parseInt(result.sum);
+          t.find('.count').text(value)
+        }
+      })
+    })
+  })
 </script>
-<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
-<script src="{% static 'home/js/jquery.min.js' %}"></script>
 <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
 <script src="{% static 'home/js/bootstrap.min.js' %}"></script>
 </html>

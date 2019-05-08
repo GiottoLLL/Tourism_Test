@@ -15,76 +15,12 @@
   <link rel="stylesheet" href="{% static 'home/css/bootstrap.min.css' %}">
   <link rel="stylesheet" href="{% static 'home/css/font-awesome.css' %}">
   <link rel="stylesheet" href="{% static 'home/css/animate.css' %}">
+  <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+  <script src="{% static 'home/js/jquery.min.js' %}"></script>
 </head>
 <body style="background: #F6F6F6;">
 <!-- 导航栏 -->
-<nav class="navbar navbar-default navbar-fixed-top">
-  <div class="container-fluid container">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-              data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">旅途</a>
-    </div>
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      {% if titles %}
-        <ul class="nav navbar-nav">
-          {% for tabbar in titles %}
-            <li><a href="#">{{ tabbar }}</a></li>
-          {% endfor %}
-          <!-- 下拉菜单 -->
-          <!--<li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li><a href="#">Action</a></li>
-              <li><a href="#">Another action</a></li>
-              <li><a href="#">Something else here</a></li>
-              <li role="separator" class="divider"></li>
-              <li><a href="#">Separated link</a></li>
-              <li role="separator" class="divider"></li>
-              <li><a href="#">One more separated link</a></li>
-            </ul>
-          </li>-->
-        </ul>
-      {% endif %}
-      <form class="navbar-form navbar-left">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search">
-        </div>
-        <button type="submit" class="btn btn-default">查找</button>
-      </form>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">登录</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-             aria-expanded="false">内容 <span class="caret"></span></a>
-          {#          <ul class="dropdown-menu">#}
-          {#            <li><a href="#">我的主页</a></li>#}
-          {#            <li><a href="#">我的攻略</a></li>#}
-          {#            <li><a href="#">设置</a></li>#}
-          {#            <li role="separator" class="divider"></li>#}
-          {#            <li><a href="#">退出</a></li>#}
-          {#          </ul>#}
-          {% if my_content %}
-            <ul class="dropdown-menu">
-              {% for content in my_content %}
-                <li><a href="#">{{ content }}</a></li>
-              {% endfor %}
-              <li role="separator" class="divider"></li>
-              <li><a href="#">退出</a></li>
-            </ul>
-          {% endif %}
-        </li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
+{% include 'home/nav.html' %}
 <!--主内容-->
 <div class="ProfileEdit">
   <div class="Card">
@@ -92,17 +28,27 @@
       <div class="UserCoverEditor">
         <div>
           <label class="UploadPicture-wrapper" style="display: block;margin-bottom: 0;">
-            <input type="file" accept="image/png,image/jpeg" class="UploadPicture-input" style="display: none">
-            <button type="button" class="Button UserCoverEditor-simpleEditButton DynamicColorButton DynamicColorButton--white">
-              <svg viewBox="0 0 20 16" class="Icon Icon--camera Icon--left" width="14" height="16" aria-hidden="true" style="height: 16px; width: 14px;">
+            <input type="file" id="change_background" accept="image/png,image/jpeg" class="UploadPicture-input"
+                   style="display: none">
+            <button onclick="$('#change_background').click()" type="button"
+                    class="Button UserCoverEditor-simpleEditButton DynamicColorButton DynamicColorButton--white">
+              <svg viewBox="0 0 20 16" class="Icon Icon--camera Icon--left" width="14" height="16" aria-hidden="true"
+                   style="height: 16px; width: 14px;">
                 <title></title>
                 <g>
-                  <path d="M18.094 2H15s-1-2-2-2H7C6 0 5 2 5 2H2C0 2 0 3.967 0 3.967V14c0 2 2.036 2 2.036 2H17c3 0 3-1.983 3-1.983V4c0-2-1.906-2-1.906-2zM10 12c-1.933 0-3.5-1.567-3.5-3.5S8.067 5 10 5s3.5 1.567 3.5 3.5S11.933 12 10 12zm0 1.5c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm7.5-8c-.552 0-1-.448-1-1s.448-1 1-1 1 .448 1 1-.448 1-1 1z" fill-rule="evenodd"></path>
+                  <path d="M18.094 2H15s-1-2-2-2H7C6 0 5 2 5 2H2C0 2 0 3.967 0 3.967V14c0 2 2.036 2 2.036 2H17c3 0 3-1.983 3-1.983V4c0-2-1.906-2-1.906-2zM10 12c-1.933 0-3.5-1.567-3.5-3.5S8.067 5 10 5s3.5 1.567 3.5 3.5S11.933 12 10 12zm0 1.5c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm7.5-8c-.552 0-1-.448-1-1s.448-1 1-1 1 .448 1 1-.448 1-1 1z"
+                        fill-rule="evenodd"></path>
                 </g>
-              </svg>编辑封面图片</button>
+              </svg>
+              编辑封面图片
+            </button>
           </label>
           <div class="UserCover">
-            <img src="../../static/home/images/april.jpg" alt="" class="UserCover-image">
+            {% if user.background %}
+              <img src="{{ MEDIA_URL }}{{ user.background }}" alt="" style="width: 100%;height: 100%;object-fit: cover">
+            {% else %}
+              <img src="{{ MEDIA_URL }}defult_bcg.jpg" alt="" style="width: 100%;height: 100%;object-fit: cover">
+            {% endif %}
           </div>
         </div>
       </div>
@@ -111,16 +57,30 @@
       <div>
         <div class="UserAvatarEditor ProfileHeader-avatar" style="font-size: 0px;">
           <div class="UserAvatar">
-            <img src="../../static/home/images/my_nick.jpg" alt="" class="Avatar Avatar--large UserAvatar-inner" width="160" height="160">
+            {% if user.avatar %}
+              <img src="{{ MEDIA_URL }}{{ user.avatar }}" alt="" class="Avatar Avatar--large UserAvatar-inner"
+                   width="160" height="160">
+            {% else %}
+              <img src="{{ MEDIA_URL }}akari.jpg" alt="" class="Avatar Avatar--large UserAvatar-inner" width="160"
+                   height="160">
+            {% endif %}
           </div>
           <label for="" class="UploadPicture-wrapper">
-            <input type="file" accept="image/png,image/jpeg" class="UploadPicture-input" style="display: none;">
-            <div class="Mask UserAvatarEditor-mask">
-              <div class="Mask-mask Mask-mask--black UserAvatarEditor-maskInner"></div>
+            <input type="file" id="change_avatar" accept="image/png,image/jpeg" class="UploadPicture-input"
+                   style="display: none;" name="avatar">
+            <div class="Mask UserAvatarEditor-mask" onclick="$('#change_avatar').click()">
+              <div class="Mask-mask Mask-mask--black UserAvatarEditor-maskInner"
+              ></div>
               <div class="Mask-content">
-                <svg class="Zi Zi--Camera UserAvatarEditor-cameraIcon" fill="currentColor" viewBox="0 0 24 24" width="36" height="36"><path d="M20.094 6S22 6 22 8v10.017S22 20 19 20H4.036S2 20 2 18V7.967S2 6 4 6h3s1-2 2-2h6c1 0 2 2 2 2h3.094zM12 16a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7zm0 1.5a5 5 0 1 0-.001-10.001A5 5 0 0 0 12 17.5zm7.5-8a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" fill-rule="evenodd"></path>
+                <svg class="Zi Zi--Camera UserAvatarEditor-cameraIcon" fill="currentColor" viewBox="0 0 24 24"
+                     width="36" height="36">
+                  <path d="M20.094 6S22 6 22 8v10.017S22 20 19 20H4.036S2 20 2 18V7.967S2 6 4 6h3s1-2 2-2h6c1 0 2 2 2 2h3.094zM12 16a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7zm0 1.5a5 5 0 1 0-.001-10.001A5 5 0 0 0 12 17.5zm7.5-8a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"
+                        fill-rule="evenodd"></path>
                 </svg>
-                <div class="UserAvatarEditor-maskInnerText" style="font-size: 15px;                                                                     ">修改我的头像</div>
+                <div class="UserAvatarEditor-maskInnerText"
+                     style="font-size: 15px;                                                                     ">
+                  修改我的头像
+                </div>
               </div>
             </div>
           </label>
@@ -129,22 +89,40 @@
       <div class="ProfileHeader-content">
         <div class="ProfileHeader-contentHead">
           <div class="ProfileHeader-title">
-            <div class="FullnameField-editable">
-              <span class="FullnameField-name">茶味淡了之后</span>
-              <button type="button" class="Button ModifyButton Field-modify Field-modify-hidden Button--link">
-                <svg viewBox="0 0 12 12" class="Icon ModifyButton-icon Icon--modify" width="12" height="16" aria-hidden="true" style="height: 16px; width: 12px;">
+            <div class="FullnameField-editable Field-msg">
+              <span class="FullnameField-name" id="username">{{ user.username }}</span>
+              <button style="top: 10px;" type="button"
+                      class="Button ModifyButton Field-modify Field-modify-hidden Button--link">
+                <svg viewBox="0 0 12 12" class="Icon ModifyButton-icon Icon--modify" width="12" height="16"
+                     aria-hidden="true" style="height: 16px; width: 12px;">
                   <title></title>
                   <g>
-                    <path d="M.423 10.32L0 12l1.667-.474 1.55-.44-2.4-2.33-.394 1.564zM10.153.233c-.327-.318-.85-.31-1.17.018l-.793.817 2.49 2.414.792-.814c.318-.328.312-.852-.017-1.17l-1.3-1.263zM3.84 10.536L1.35 8.122l6.265-6.46 2.49 2.414-6.265 6.46z" fill-rule="evenodd"></path>
+                    <path d="M.423 10.32L0 12l1.667-.474 1.55-.44-2.4-2.33-.394 1.564zM10.153.233c-.327-.318-.85-.31-1.17.018l-.793.817 2.49 2.414.792-.814c.318-.328.312-.852-.017-1.17l-1.3-1.263zM3.84 10.536L1.35 8.122l6.265-6.46 2.49 2.414-6.265 6.46z"
+                          fill-rule="evenodd"></path>
                   </g>
                 </svg>
                 修改
               </button>
             </div>
+            <div class="Field-form">
+              <div class="HeadlineField-input Input-wrapper">
+                <input id="username-input" class="Input" value="{{ user.username }}">
+              </div>
+              <div class="ButtonGroup HeadlineField-buttonGroup">
+                <button type="button" class="Button Button--primary Button--blue sub-btn" id="change-username">保存
+                </button>
+                <button type="button" class="Button Button--grey can-btn">取消</button>
+              </div>
+            </div>
           </div>
           <div class="ProfileHeader-expandActions ProfileEdit-expandActions">
-            <a type="button" class="Button Button--plain" href="">返回我的主页
-              <svg viewBox="0 0 10 6" class="Icon ProfileEdit-arrowIcon Icon--arrow" width="10" height="16" aria-hidden="true" style="height: 16px; width: 10px;"><title></title><g><path d="M8.716.217L5.002 4 1.285.218C.99-.072.514-.072.22.218c-.294.29-.294.76 0 1.052l4.25 4.512c.292.29.77.29 1.063 0L9.78 1.27c.293-.29.293-.76 0-1.052-.295-.29-.77-.29-1.063 0z"></path></g></svg>
+            <a type="button" class="Button Button--plain" href="{% url 'person' %}">返回我的主页
+              <svg viewBox="0 0 10 6" class="Icon ProfileEdit-arrowIcon Icon--arrow" width="10" height="16"
+                   aria-hidden="true" style="height: 16px; width: 10px;"><title></title>
+                <g>
+                  <path d="M8.716.217L5.002 4 1.285.218C.99-.072.514-.072.22.218c-.294.29-.294.76 0 1.052l4.25 4.512c.292.29.77.29 1.063 0L9.78 1.27c.293-.29.293-.76 0-1.052-.295-.29-.77-.29-1.063 0z"></path>
+                </g>
+              </svg>
             </a>
           </div>
         </div>
@@ -152,53 +130,122 @@
           <form action="" class="Field">
             <div class="Field-label">性别</div>
             <div class="Field-content">
-              <div>
-                <span class="Field-text">男</span>
+              <div class="Field-msg" id="gender">
+                {% if user.sex == 'male' %}
+                  <span class="Field-text">男</span>
+                {% else %}
+                  <span class="Field-text">女</span>
+                {% endif %}
+
                 <button type="button" class="Button ModifyButton Field-modify Field-modify-hidden Button--link">
-                  <svg viewBox="0 0 12 12" class="Icon ModifyButton-icon Icon--modify" width="12" height="16" aria-hidden="true" style="height: 16px; width: 12px;">
+                  <svg viewBox="0 0 12 12" class="Icon ModifyButton-icon Icon--modify" width="12" height="16"
+                       aria-hidden="true" style="height: 16px; width: 12px;">
                     <title></title>
                     <g>
-                      <path d="M.423 10.32L0 12l1.667-.474 1.55-.44-2.4-2.33-.394 1.564zM10.153.233c-.327-.318-.85-.31-1.17.018l-.793.817 2.49 2.414.792-.814c.318-.328.312-.852-.017-1.17l-1.3-1.263zM3.84 10.536L1.35 8.122l6.265-6.46 2.49 2.414-6.265 6.46z" fill-rule="evenodd"></path>
+                      <path d="M.423 10.32L0 12l1.667-.474 1.55-.44-2.4-2.33-.394 1.564zM10.153.233c-.327-.318-.85-.31-1.17.018l-.793.817 2.49 2.414.792-.814c.318-.328.312-.852-.017-1.17l-1.3-1.263zM3.84 10.536L1.35 8.122l6.265-6.46 2.49 2.414-6.265 6.46z"
+                            fill-rule="evenodd"></path>
                     </g>
-                  </svg>修改
+                  </svg>
+                  修改
                 </button>
+              </div>
+              <div class="Field-form">
+                <input type="radio" name="gender" value="男" checked=""> 男
+                <input type="radio" name="gender" value="女" style="margin-left: 30px;"> 女
+                <div class="ButtonGroup">
+                  <button type="button" class="Button Button--primary Button--blue sub-btn" id="change-sex">保存
+                  </button>
+                  <button type="button" class="Button Button--grey can-btn">取消</button>
+                </div>
               </div>
             </div>
           </form>
           <form class="Field">
             <div class="Field-label">一句话介绍</div>
             <div class="Field-content">
-              <div>
+              <div class="Field-msg">
                 <span class="Field-text">
-                  <span class="ztext">本体其实是眼镜</span></span><button type="button" class="Button ModifyButton Field-modify Field-modify-hidden Button--link"><svg viewBox="0 0 12 12" class="Icon ModifyButton-icon Icon--modify" width="12" height="16" aria-hidden="true" style="height: 16px; width: 12px;"><title></title><g><path d="M.423 10.32L0 12l1.667-.474 1.55-.44-2.4-2.33-.394 1.564zM10.153.233c-.327-.318-.85-.31-1.17.018l-.793.817 2.49 2.414.792-.814c.318-.328.312-.852-.017-1.17l-1.3-1.263zM3.84 10.536L1.35 8.122l6.265-6.46 2.49 2.414-6.265 6.46z" fill-rule="evenodd"></path></g></svg>修改</button></div></div></form>
-          <form class="Field">
-            <div class="Field-label">旅行地</div>
-            <div class="Field-content"><div class="AddButton">
-              <button type="button" class="Button Button--link">
-                <svg viewBox="0 0 18 18" class="Icon AddButton-icon Icon--add Icon--left" width="20" height="20" aria-hidden="true" style="height: 20px; width: 20px;">
-                  <title></title>
-                  <g>
-                    <g fill-rule="evenodd">
-                      <path d="M6.035 16.433c-.875-.35-1.678-.848-2.383-1.482-.205-.184-.52-.167-.707.04-.185.204-.167.52.038.705.794.714 1.696 1.274 2.682 1.668.06.023.123.035.185.035.198 0 .386-.12.464-.314.103-.258-.022-.55-.28-.65zM1.097 10.247C1.054 9.975.8 9.79.525 9.83c-.273.043-.46.3-.417.57.154.98.467 1.925.93 2.803.09.17.264.267.443.267.08 0 .16-.02.234-.058.244-.13.338-.432.208-.676-.41-.78-.69-1.618-.825-2.49zM9.106 1c.95.014 1.878.19 2.76.528.058.022.118.033.178.033.2 0 .39-.12.467-.32.1-.258-.03-.547-.287-.646C11.233.214 10.19.014 9.12 0h-.007c-.273 0-.496.22-.5.493-.003.278.218.504.493.508zM3.73 2.83c.108 0 .218-.034.31-.107.693-.55 1.465-.976 2.295-1.27.26-.09.397-.377.305-.637C6.548.556 6.263.42 6.002.51 5.068.84 4.2 1.323 3.42 1.94c-.217.17-.254.485-.083.702.1.124.245.19.393.19zM2.01 4.136c-.236-.144-.544-.07-.688.165-.557.91-.945 1.9-1.15 2.944-.055.27.12.534.392.587.033.008.065.01.098.01.234 0 .443-.164.49-.402.184-.927.528-1.807 1.023-2.614.144-.236.07-.543-.165-.688zM14.927 2.228c-.207-.183-.523-.162-.705.047-.182.208-.16.523.047.706.664.583 1.224 1.265 1.665 2.028.092.16.26.25.433.25.085 0 .17-.02.25-.067.24-.137.32-.443.183-.682-.495-.86-1.125-1.626-1.873-2.28zM17.294 7.07c-.27.047-.454.306-.408.578.076.44.114.896.114 1.35 0 .493-.046.984-.133 1.46-.05.27.13.532.402.582.03.005.06.008.09.008.236 0 .446-.17.49-.41.1-.534.148-1.085.15-1.638 0-.513-.044-1.025-.13-1.52-.045-.273-.303-.457-.576-.41zM16.566 12.91c-.235-.14-.544-.065-.686.174-.452.76-1.02 1.434-1.692 2.005-.21.18-.235.494-.057.704.1.116.24.176.382.176.115 0 .23-.04.324-.12.754-.643 1.395-1.4 1.903-2.254.142-.238.064-.544-.174-.686zM11.766 16.51c-.884.325-1.814.49-2.772.49l-.208-.002c-.283-.02-.505.21-.513.487-.007.275.21.506.487.513L9 18c1.07 0 2.116-.186 3.11-.553.26-.095.393-.383.297-.642-.095-.26-.385-.392-.64-.295zM9.8 8.2V6.3c0-.442-.358-.8-.8-.8-.442 0-.8.358-.8.8v1.9H6.3c-.442 0-.8.358-.8.8 0 .442.358.8.8.8h1.9v1.9c0 .442.358.8.8.8.442 0 .8-.358.8-.8V9.8h1.9c.442 0 .8-.358.8-.8 0-.442-.358-.8-.8-.8H9.8z"></path>
+                  <span class="ztext" id="sign">{{ user.sign }}</span>
+                </span>
+                <button type="button" class="Button ModifyButton Field-modify Field-modify-hidden Button--link">
+                  <svg viewBox="0 0 12 12" class="Icon ModifyButton-icon Icon--modify" width="12" height="16"
+                       aria-hidden="true" style="height: 16px; width: 12px;">
+                    <title></title>
+                    <g>
+                      <path d="M.423 10.32L0 12l1.667-.474 1.55-.44-2.4-2.33-.394 1.564zM10.153.233c-.327-.318-.85-.31-1.17.018l-.793.817 2.49 2.414.792-.814c.318-.328.312-.852-.017-1.17l-1.3-1.263zM3.84 10.536L1.35 8.122l6.265-6.46 2.49 2.414-6.265 6.46z"
+                            fill-rule="evenodd"></path>
                     </g>
-                  </g>
-                </svg>添加旅行地
-              </button>
+                  </svg>
+                  修改
+                </button>
+              </div>
+              <div class="Field-form">
+                <div class="HeadlineField-input Input-wrapper">
+                  <input id="sign-input" class="Input" value="{{ user.sign }}">
+                </div>
+                <div class="ButtonGroup HeadlineField-buttonGroup">
+                  <button type="button" class="Button Button--primary Button--blue sub-btn" id="change-sign">保存</button>
+                  <button type="button" class="Button Button--grey can-btn">取消</button>
+                </div>
+              </div>
             </div>
+          </form>
+          <form class="Field">
+            <div class="Field-label">标签</div>
+            <div class="Field-content">
+              <div class="AddButton">
+                <button type="button" class="Button Button--link" data-toggle="modal" data-target="#tags">
+                  <svg viewBox="0 0 18 18" class="Icon AddButton-icon Icon--add Icon--left" width="20" height="20"
+                       aria-hidden="true" style="height: 20px; width: 20px;">
+                    <title></title>
+                    <g>
+                      <g fill-rule="evenodd">
+                        <path d="M6.035 16.433c-.875-.35-1.678-.848-2.383-1.482-.205-.184-.52-.167-.707.04-.185.204-.167.52.038.705.794.714 1.696 1.274 2.682 1.668.06.023.123.035.185.035.198 0 .386-.12.464-.314.103-.258-.022-.55-.28-.65zM1.097 10.247C1.054 9.975.8 9.79.525 9.83c-.273.043-.46.3-.417.57.154.98.467 1.925.93 2.803.09.17.264.267.443.267.08 0 .16-.02.234-.058.244-.13.338-.432.208-.676-.41-.78-.69-1.618-.825-2.49zM9.106 1c.95.014 1.878.19 2.76.528.058.022.118.033.178.033.2 0 .39-.12.467-.32.1-.258-.03-.547-.287-.646C11.233.214 10.19.014 9.12 0h-.007c-.273 0-.496.22-.5.493-.003.278.218.504.493.508zM3.73 2.83c.108 0 .218-.034.31-.107.693-.55 1.465-.976 2.295-1.27.26-.09.397-.377.305-.637C6.548.556 6.263.42 6.002.51 5.068.84 4.2 1.323 3.42 1.94c-.217.17-.254.485-.083.702.1.124.245.19.393.19zM2.01 4.136c-.236-.144-.544-.07-.688.165-.557.91-.945 1.9-1.15 2.944-.055.27.12.534.392.587.033.008.065.01.098.01.234 0 .443-.164.49-.402.184-.927.528-1.807 1.023-2.614.144-.236.07-.543-.165-.688zM14.927 2.228c-.207-.183-.523-.162-.705.047-.182.208-.16.523.047.706.664.583 1.224 1.265 1.665 2.028.092.16.26.25.433.25.085 0 .17-.02.25-.067.24-.137.32-.443.183-.682-.495-.86-1.125-1.626-1.873-2.28zM17.294 7.07c-.27.047-.454.306-.408.578.076.44.114.896.114 1.35 0 .493-.046.984-.133 1.46-.05.27.13.532.402.582.03.005.06.008.09.008.236 0 .446-.17.49-.41.1-.534.148-1.085.15-1.638 0-.513-.044-1.025-.13-1.52-.045-.273-.303-.457-.576-.41zM16.566 12.91c-.235-.14-.544-.065-.686.174-.452.76-1.02 1.434-1.692 2.005-.21.18-.235.494-.057.704.1.116.24.176.382.176.115 0 .23-.04.324-.12.754-.643 1.395-1.4 1.903-2.254.142-.238.064-.544-.174-.686zM11.766 16.51c-.884.325-1.814.49-2.772.49l-.208-.002c-.283-.02-.505.21-.513.487-.007.275.21.506.487.513L9 18c1.07 0 2.116-.186 3.11-.553.26-.095.393-.383.297-.642-.095-.26-.385-.392-.64-.295zM9.8 8.2V6.3c0-.442-.358-.8-.8-.8-.442 0-.8.358-.8.8v1.9H6.3c-.442 0-.8.358-.8.8 0 .442.358.8.8.8h1.9v1.9c0 .442.358.8.8.8.442 0 .8-.358.8-.8V9.8h1.9c.442 0 .8-.358.8-.8 0-.442-.358-.8-.8-.8H9.8z"></path>
+                      </g>
+                    </g>
+                  </svg>
+                  添加标签
+                </button>
+              </div>
+              {% if user.tags %}
+                <div class="Field-list">
+                  {% for tag in tags %}
+                    <div class="Field-card" draggable="true">
+                      <span>{{ tag }}</span>
+                      <button type="button" class="Field-delete glyphicon glyphicon-remove"
+                              style="display: none;" value="{{ tag.id }}"></button>
+                    </div>
+                  {% endfor %}
+                </div>
+              {% endif %}
             </div>
           </form>
           <form class="Field">
             <div class="Field-label">个人简介</div>
             <div class="Field-content">
-              <div class="DescriptionField-content">
+              <div class="Field-msg">
+                <span class="Field-text" id="introduce">{{ user.introduce }}</span>
                 <button type="button" class="Button ModifyButton Button--link">
-                  <svg viewBox="0 0 12 12" class="Icon ModifyButton-icon Icon--modify" width="12" height="16" aria-hidden="true" style="height: 16px; width: 12px;">
+                  <svg viewBox="0 0 12 12" class="Icon ModifyButton-icon Icon--modify" width="12" height="16"
+                       aria-hidden="true" style="height: 16px; width: 12px;">
                     <title></title>
                     <g>
-                      <path d="M.423 10.32L0 12l1.667-.474 1.55-.44-2.4-2.33-.394 1.564zM10.153.233c-.327-.318-.85-.31-1.17.018l-.793.817 2.49 2.414.792-.814c.318-.328.312-.852-.017-1.17l-1.3-1.263zM3.84 10.536L1.35 8.122l6.265-6.46 2.49 2.414-6.265 6.46z" fill-rule="evenodd"></path>
+                      <path d="M.423 10.32L0 12l1.667-.474 1.55-.44-2.4-2.33-.394 1.564zM10.153.233c-.327-.318-.85-.31-1.17.018l-.793.817 2.49 2.414.792-.814c.318-.328.312-.852-.017-1.17l-1.3-1.263zM3.84 10.536L1.35 8.122l6.265-6.46 2.49 2.414-6.265 6.46z"
+                            fill-rule="evenodd"></path>
                     </g>
-                  </svg>填写
+                  </svg>
+                  修改
                 </button>
+              </div>
+              <div class="Field-form">
+                <div class="HeadlineField-input Input-wrapper">
+                  <input class="Input" value="{{ user.introduce }}" id="introduce-input">
+                </div>
+                <div class="ButtonGroup HeadlineField-buttonGroup">
+                  <button type="button" class="Button Button--primary Button--blue sub-btn" id="change-introduce">保存
+                  </button>
+                  <button type="button" class="Button Button--grey can-btn">取消</button>
+                </div>
               </div>
             </div>
           </form>
@@ -207,9 +254,285 @@
     </div>
   </div>
 </div>
+<button type="button" data-toggle="modal"
+        data-target="#myModal" style="display: none" id="read_avatar"></button>
+<button type="button" data-toggle="modal"
+        data-target="#myModa2" style="display: none" id="read_background"></button>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: 330px;height: 310px;">
+    <div class="modal-content" style="margin-top: 300px;width: 330px;height: 310px;">
+      <div class="modal-header">
+        <button type="button" class="close"
+                data-dismiss="modal" aria-hidden="true">
+          <svg class="Zi Zi--Close Modal-closeIcon" fill="currentColor" viewBox="0 0 24 24" width="24" height="24"><path d="M13.486 12l5.208-5.207a1.048 1.048 0 0 0-.006-1.483 1.046 1.046 0 0 0-1.482-.005L12 10.514 6.793 5.305a1.048 1.048 0 0 0-1.483.005 1.046 1.046 0 0 0-.005 1.483L10.514 12l-5.208 5.207a1.048 1.048 0 0 0 .006 1.483 1.046 1.046 0 0 0 1.482.005L12 13.486l5.207 5.208a1.048 1.048 0 0 0 1.483-.006 1.046 1.046 0 0 0 .005-1.482L13.486 12z" fill-rule="evenodd"></path>
+          </svg>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">
+          预览
+        </h4>
+      </div>
+      <div class="modal-body">
+        <div id="image-holder" style="display: flex;flex-direction: row;justify-content: center;"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="send-avatar">
+          确定
+        </button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal -->
+</div>
+<div class="modal fade" id="myModa2" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: 550px;">
+    <div class="modal-content" style="margin-top: 300px;width: 550px;">
+      <div class="modal-header">
+        <button type="button" class="close"
+                data-dismiss="modal" aria-hidden="true">
+          <svg class="Zi Zi--Close Modal-closeIcon" fill="currentColor" viewBox="0 0 24 24" width="24" height="24"><path d="M13.486 12l5.208-5.207a1.048 1.048 0 0 0-.006-1.483 1.046 1.046 0 0 0-1.482-.005L12 10.514 6.793 5.305a1.048 1.048 0 0 0-1.483.005 1.046 1.046 0 0 0-.005 1.483L10.514 12l-5.208 5.207a1.048 1.048 0 0 0 .006 1.483 1.046 1.046 0 0 0 1.482.005L12 13.486l5.207 5.208a1.048 1.048 0 0 0 1.483-.006 1.046 1.046 0 0 0 .005-1.482L13.486 12z" fill-rule="evenodd"></path>
+          </svg>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">
+          预览
+        </h4>
+      </div>
+      <div class="modal-body">
+        <div id="image-holder2" style="display: flex;flex-direction: row;justify-content: center;"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="send-background">
+          确定
+        </button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal -->
+</div>
+<div class="modal fade" id="tags" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: 400px;margin: 300px auto;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          <svg class="Zi Zi--Close Modal-closeIcon" fill="currentColor" viewBox="0 0 24 24" width="24" height="24">
+            <path d="M13.486 12l5.208-5.207a1.048 1.048 0 0 0-.006-1.483 1.046 1.046 0 0 0-1.482-.005L12 10.514 6.793 5.305a1.048 1.048 0 0 0-1.483.005 1.046 1.046 0 0 0-.005 1.483L10.514 12l-5.208 5.207a1.048 1.048 0 0 0 .006 1.483 1.046 1.046 0 0 0 1.482.005L12 13.486l5.207 5.208a1.048 1.048 0 0 0 1.483-.006 1.046 1.046 0 0 0 .005-1.482L13.486 12z"
+                  fill-rule="evenodd"></path>
+          </svg>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">选择旅游爱好</h4>
+      </div>
+      <div class="modal-body">
+        {% for item in tags_all %}
+          <button class="tag-item" value="{{ item.id }}">{{ item.tag_name }}</button>
+        {% endfor %}
+      </div>
+      <div class="modal-footer">
+        <!--<button type="button" class="btn btn-default">关闭</button>-->
+        <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal -->
+</div>
+<style>
+  .tag-item {
+    border: none;
+    background: #fff;
+    color: #0084ff;
+    display: inline-block;
+    font-size: 16px;
+  }
+</style>
 </body>
-<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
-<script src="{% static 'home/js/jquery.min.js' %}"></script>
+<script>
+  $(function () {
+    $('.ModifyButton').mouseover(function () {
+      $(this).removeClass('Field-modify-hidden');
+    });
+    $('.ModifyButton').mouseout(function () {
+      $(this).addClass('Field-modify-hidden');
+    });
+    $('.Field-card').mouseover(function () {
+      $(this).addClass('Field-hoveredCard');
+      $(this).find('button').show()
+    });
+    $('.Field-card').mouseout(function () {
+      $(this).removeClass('Field-hoveredCard');
+      $(this).find('button').hide()
+    });
+    $('.Field-delete').click(function () {
+      $.ajax({
+        cache: false,
+        type: "POST",
+        url: '{% url 'change' %}',
+        async: true,
+        traditional: true,
+        data: {
+          tag_del: $(this).val()
+        },
+        success: function (result) {
+          console.log('re', result.status);
+          window.location.reload();
+        },
+      })
+    });
+    $('.ModifyButton').click(function () {
+      $(this).parent("div").hide()
+      $(this).parent("div").parent("div").find('.Field-form').show()
+    });
+    $('.sub-btn').click(function () {
+      $(this).parent('div').parent('div').hide()
+      $(this).parent('div').parent('div').parent('div').find('.Field-msg').show()
+    });
+    $('.can-btn').click(function () {
+      $(this).parent('div').parent('div').hide()
+      $(this).parent('div').parent('div').parent('div').find('.Field-msg').show()
+    });
+    $('#change_avatar').on('change', function () {
+      $('#read_avatar').click();
+      if (typeof(FileReader) != "undfined") {
+        var image_holder = $('#image-holder');
+        image_holder.empty();
+        var reader = new FileReader();
+        reader.onload = function (e) {
+          $("<img />", {
+            "src": e.target.result,
+            "class": "avatar-read"
+          }).appendTo(image_holder);
+        };
+        image_holder.show();
+        reader.readAsDataURL($(this)[0].files[0]);
+      } else {
+        alert('你的浏览器不支持FileReader.');
+      }
+    });
+    $('#send-avatar').click(function () {
+      var img_data = new FormData();
+      var file_info = $('#change_avatar')[0].files[0];
+      img_data.append('avatar',file_info);
+      $.ajax({
+        cache: false,
+        type: "POST",
+        url: '{% url 'change' %}',
+        async: true,
+        processData: false,
+        contentType: false,
+        data: img_data,
+        success: function (result) {
+          console.log('re', result.status);
+          window.location.reload()
+        },
+      })
+    });
+    $('#change_background').on('change', function () {
+      $('#read_background').click();
+      if (typeof(FileReader) != "undfined") {
+        var image_holder = $('#image-holder2');
+        image_holder.empty();
+        var reader = new FileReader();
+        reader.onload = function (e) {
+          $("<img />", {
+            "src": e.target.result,
+            "class": "background-read"
+          }).appendTo(image_holder);
+        };
+        image_holder.show();
+        reader.readAsDataURL($(this)[0].files[0]);
+      } else {
+        alert('你的浏览器不支持FileReader.');
+      }
+    });
+    $('#send-background').click(function () {
+      var img_data = new FormData();
+      var file_info = $('#change_background')[0].files[0];
+      img_data.append('background',file_info);
+      $.ajax({
+        cache: false,
+        type: "POST",
+        url: '{% url 'change' %}',
+        async: true,
+        processData: false,
+        contentType: false,
+        data: img_data,
+        success: function (result) {
+          console.log('re', result.status);
+          window.location.reload()
+        },
+      })
+    });
+    $('.tag-item').click(function () {
+      $.ajax({
+        cache: false,
+        type: "POST",
+        url: '{% url 'change' %}',
+        async: true,
+        traditional: true,
+        data: {
+          tag: $(this).val()
+        },
+        success: function (result) {
+          console.log('re', result.status);
+          window.location.reload();
+        },
+      })
+    });
+    $('#change-sex').click(function () {
+      $.ajax({
+        cache: false,
+        type: "POST",
+        url: "{% url 'change' %}",
+        data: {
+          sex: $('input:radio[name="gender"]:checked').val()
+        },
+        success: function (result) {
+          console.log('re', result.status);
+          $('#gender').find('span').text(result.changed)
+        }
+      })
+    });
+    $('#change-username').click(function () {
+      $.ajax({
+        cache: false,
+        type: "POST",
+        url: "{% url 'change' %}",
+        data: {
+          username: $('#username-input').val()
+        },
+        success: function (result) {
+          console.log('re', result.status);
+          $('#username').text(result.changed)
+        }
+      })
+    });
+    $('#change-sign').click(function () {
+      $.ajax({
+        cache: false,
+        type: "POST",
+        url: "{% url 'change' %}",
+        data: {
+          sign: $('#sign-input').val()
+        },
+        success: function (result) {
+          console.log('re', result.status);
+          $('#sign').text(result.changed)
+        }
+      })
+    });
+    $('#change-introduce').click(function () {
+      $.ajax({
+        cache: false,
+        type: "POST",
+        url: "{% url 'change' %}",
+        data: {
+          introduce: $('#introduce-input').val()
+        },
+        success: function (result) {
+          console.log('re', result.status);
+          $('#introduce').text(result.changed)
+        }
+      })
+    });
+  });
+</script>
+
 <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
 <script src="{% static 'home/js/bootstrap.min.js' %}"></script>
 </html>

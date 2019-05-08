@@ -15,69 +15,42 @@
   <link rel="stylesheet" href="{% static 'home/css/font-awesome.css' %}">
   <link rel="stylesheet" href="{% static 'home/css/animate.css' %}">
   <link rel="stylesheet" href="{% static 'home/css/main.css' %}">
+  <link rel="stylesheet" href="{% static 'home/css/toastr.min.css' %}">
   <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
   <script src="{% static 'home/js/jquery.min.js' %}"></script>
+  <script src="{% static 'home/js/toastr.min.js' %}"></script>
+  <script type="text/javascript">
+    toastr.options.positionClass = 'toast-top-center';
+  </script>
+  <style>
+    .ContentItem-meta {
+      position: relative;
+    }
+    .ContentItem-meta p img{
+      max-width: 100%;
+      margin-bottom: 10px;
+    }
+    h2{
+      font-size: 30px;
+    }
+  </style>
 </head>
 <body style="background: #F6F6F6;">
 <!-- 导航栏 -->
-<nav class="navbar navbar-default navbar-fixed-top">
-  <div class="container-fluid container">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-              data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="{% url 'index' %}">旅途</a>
+{% include 'home/nav.html' %}
+<div style="padding: 16px;margin-top: 60px;background: #fff;">
+  <div style="width: 1000px;padding: 0 30px;margin: 0 auto;">
+    <div style="margin-bottom: 10px;  ">
+      {% for tag in tags %}
+        <span class="Tag Topic">{{ tag }}</span>
+      {% endfor %}
+
     </div>
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li><a href="#">推荐</a></li>
-        <li><a href="#">关注</a></li>
-        <li><a href="#">热门</a></li>
-        <!-- 下拉菜单 -->
-        <!--<li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">One more separated link</a></li>
-          </ul>
-        </li>-->
-      </ul>
-      <form class="navbar-form navbar-left">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search">
-        </div>
-        <button type="submit" class="btn btn-default">查找</button>
-      </form>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">登录</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-             aria-expanded="false">内容 <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">我的主页</a></li>
-            <li><a href="#">我的攻略</a></li>
-            <li><a href="#">设置</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">退出</a></li>
-          </ul>
-        </li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
+    <div style="font-size: 30px;font-weight: bold">{{ strategy.title }}</div>
+  </div>
+</div>
 <!-- 主内容-->
-<div class="container" style="margin-top: 70px;display: flex;flex-direction: row;margin-bottom: 100px;">
+<div class="container" style="margin-top: 10px;display: flex;flex-direction: row;margin-bottom: 60px;">
   <div class="Left" style="width: 70%;height: 100%;margin-right: 1%;background: #ffffff;">
     <div class="Card" style="overflow: initial;">
       <div class="QuestionAnswer-content" tabindex="0">
@@ -89,8 +62,64 @@
           </div>
         </div>
       </div>
-        <button id="up">点赞：<span id="up_total">{{ strategy.users_like.count }}</span></button>
-      <button>收藏：{{ strategy.collection }}</button>
+    </div>
+    <div style="width: 678px;bottom: 0;" class="Sticky-bottom">
+    {% if like == 1 %}
+      <button id="up" class="Button Button--blue" style="padding: 0 10px;">
+        <span>
+          <svg class="Zi Zi--TriangleUp VoteButton-TriangleUp" fill="currentColor" viewBox="0 0 24 24" width="10"
+               height="10">
+            <path d="M2 18.242c0-.326.088-.532.237-.896l7.98-13.203C10.572 3.57 11.086 3 12 3c.915 0 1.429.571 1.784 1.143l7.98 13.203c.15.364.236.57.236.896 0 1.386-.875 1.9-1.955 1.9H3.955c-1.08 0-1.955-.517-1.955-1.9z"
+                  fill-rule="evenodd"></path>
+          </svg>
+        </span>点赞：<span id="up_total">{{ strategy.users_like.count }}</span>
+      </button>
+    {% else %}
+      <button id="up" class="Button Button--no" style="padding: 0 10px;">
+        <span>
+          <svg class="Zi Zi--TriangleUp VoteButton-TriangleUp" fill="currentColor" viewBox="0 0 24 24" width="10"
+               height="10">
+            <path d="M2 18.242c0-.326.088-.532.237-.896l7.98-13.203C10.572 3.57 11.086 3 12 3c.915 0 1.429.571 1.784 1.143l7.98 13.203c.15.364.236.57.236.896 0 1.386-.875 1.9-1.955 1.9H3.955c-1.08 0-1.955-.517-1.955-1.9z"
+                  fill-rule="evenodd"></path>
+          </svg>
+        </span>点赞：<span id="up_total">{{ strategy.users_like.count }}</span>
+      </button>
+    {% endif %}
+      <button id="open-comment-box" class="Button-plain ContentItem-action" data-toggle="modal"
+              data-target="#comment-modal">
+        <svg class="Zi Zi--Comment Button-zi" fill="currentColor" viewBox="0 0 24 24" width="1.2em" height="1.2em">
+          <path d="M10.241 19.313a.97.97 0 0 0-.77.2 7.908 7.908 0 0 1-3.772 1.482.409.409 0 0 1-.38-.637 5.825 5.825 0 0 0 1.11-2.237.605.605 0 0 0-.227-.59A7.935 7.935 0 0 1 3 11.25C3 6.7 7.03 3 12 3s9 3.7 9 8.25-4.373 9.108-10.759 8.063z"
+                fill-rule="evenodd"></path>
+        </svg>
+        <span>{{ strategy.comment_count }} 条</span>
+        <span>评论</span>
+      </button>
+      {% if col == 1 %}
+        <button id="collection" class="Button-plain ContentItem-action" style="color: #0084ff">
+          <svg class="Zi Zi--Star Button-zi" fill="currentColor" viewBox="0 0 24 24" width="1.2em" height="1.2em">
+            <path d="M5.515 19.64l.918-5.355-3.89-3.792c-.926-.902-.639-1.784.64-1.97L8.56 7.74l2.404-4.871c.572-1.16 1.5-1.16 2.072 0L15.44 7.74l5.377.782c1.28.186 1.566 1.068.64 1.97l-3.89 3.793.918 5.354c.219 1.274-.532 1.82-1.676 1.218L12 18.33l-4.808 2.528c-1.145.602-1.896.056-1.677-1.218z"
+                  fill-rule="evenodd"></path>
+          </svg>
+          <span>已收藏</span>
+        </button>
+      {% else %}
+        <button id="collection" class="Button-plain ContentItem-action">
+          <svg class="Zi Zi--Star Button-zi" fill="currentColor" viewBox="0 0 24 24" width="1.2em" height="1.2em">
+            <path d="M5.515 19.64l.918-5.355-3.89-3.792c-.926-.902-.639-1.784.64-1.97L8.56 7.74l2.404-4.871c.572-1.16 1.5-1.16 2.072 0L15.44 7.74l5.377.782c1.28.186 1.566 1.068.64 1.97l-3.89 3.793.918 5.354c.219 1.274-.532 1.82-1.676 1.218L12 18.33l-4.808 2.528c-1.145.602-1.896.056-1.677-1.218z"
+                  fill-rule="evenodd"></path>
+          </svg>
+          <span>收藏</span>
+        </button>
+      {% endif %}
+
+      <button id="report" class="Button-plain ContentItem-action" data-toggle="modal"
+              data-target="#report-modal">
+        <svg class="Zi Zi--Report Button-zi" fill="currentColor" viewBox="0 0 24 24" width="1.2em" height="1.2em">
+          <path d="M19.947 3.129c-.633.136-3.927.639-5.697.385-3.133-.45-4.776-2.54-9.949-.888-.997.413-1.277 1.038-1.277 2.019L3 20.808c0 .3.101.54.304.718a.97.97 0 0 0 .73.304c.275 0 .519-.102.73-.304.202-.179.304-.418.304-.718v-6.58c4.533-1.235 8.047.668 8.562.864 2.343.893 5.542.008 6.774-.657.397-.178.596-.474.596-.887V3.964c0-.599-.42-.972-1.053-.835z"
+                fill-rule="evenodd"></path>
+        </svg>
+        <span>举报</span>
+      </button>
     </div>
   </div>
   <div class="Right" style="width: 29%;height: 100%;">
@@ -104,17 +133,24 @@
           <div class="AnswerAuthor-user">
             <div class="AnswerAuthor-user-avatar">
                 <span class="UserLink">
-                  <a href="" class="UserLink-link" data-za-detail-view-element_name="User" target="_blank">
-                    <img src="../../static/home/images/my_nick.jpg" alt="茶味淡了之后"
-                         class="Avatar Avatar-large UserLink-link" width="60" height="60">
+                  <a href="{% url 'anotherone' strategy.author.id 'strategy' %}" class="UserLink-link"
+                     data-za-detail-view-element_name="User">
+                    {% if strategy.author.avatar %}
+                      <img src="{{ MEDIA_URL }}{{ strategy.author.avatar }}" alt="{{ strategy.author.username }}"
+                           class="Avatar Avatar-large UserLink-link" width="60" height="60">
+                    {% else %}
+                      <img src="{{ MEDIA_URL }}akari.jpg" alt="{{ strategy.author.username }}"
+                           class="Avatar Avatar-large UserLink-link" width="60" height="60">
+                    {% endif %}
                   </a>
                 </span>
             </div>
             <div class="AnswerAuthor-user-content">
               <div class="AnswerAuthor-user-name">
                   <span class="UserLink">
-                    <a href="" class="UserLink-link" data-za-view-element_name="User" target="_blank"
-                       style="color: #8590a6;">{{ strategy.author.username }}</a>
+                    <a href="{% url 'anotherone' strategy.author.id 'strategy' %}" class="UserLink-link"
+                       data-za-view-element_name="User" style="color: #8590a6;">
+                      {{ strategy.author.username }}</a>
                   </span>
               </div>
             </div>
@@ -123,32 +159,35 @@
         <div class="Card-section">
           <div class="AnswerAuthor-count">
             <div class="NumberBoard">
-              <a href="" data-za-detail-view-element_name="Answer" type="button"
+              <a href="{% url 'person' 'comment' %}" data-za-detail-view-element_name="Answer" type="button"
                  class="NumberBoard-item Button-plain Button">
                 <div class="NumberBoard-itemInner">
-                  <div class="NumberBoard-itemName">回答</div>
-                  <strong class="NumberBoard-itemValue" title="3">3</strong>
+                  <div class="NumberBoard-itemName">评论</div>
+                  <strong class="NumberBoard-itemValue" title="3">{{ strategy.author.comment_author.count }}</strong>
                 </div>
               </a>
-              <a href="" data-za-detail-view-element_name="Post" type="button"
+              <a href="{% url 'person' 'strategy' %}" data-za-detail-view-element_name="Post" type="button"
                  class="NumberBoard-item Button-plain Button">
                 <div class="NumberBoard-itemInner">
-                  <div class="NumberBoard-itemName">文章</div>
-                  <strong class="NumberBoard-itemValue" title="0">0</strong>
+                  <div class="NumberBoard-itemName">攻略</div>
+                  <strong class="NumberBoard-itemValue" title="0">{{ strategy.author.strategy_set.count }}</strong>
                 </div>
               </a>
-              <a href="" data-za-detail-view-element_name="Follower" type="button"
+              <a href="{% url 'person' 'fans' %}" data-za-detail-view-element_name="Follower" type="button"
                  class="NumberBoard-item Button-plain Button">
                 <div class="NumberBoard-itemInner">
                   <div class="NumberBoard-itemName">关注者</div>
-                  <strong class="NumberBoard-itemValue" title="1">1</strong>
+                  <strong class="NumberBoard-itemValue" title="1">{{ fans.count }}</strong>
                 </div>
               </a>
             </div>
 
           </div>
+        {% if author == 1 %}
           <div class="MemberButtonGroup AnswerAuthor-buttons">
-            <button type="button" class="Button FollowButton Button--primary Button--blue" style="flex: 1;">
+            {% if follow_status == 0 %}
+              <button id="follow" type="button" class="Button FollowButton Button--primary Button--blue"
+                      style="flex: 1;">
                 <span style="display: inline-flex; align-items: center;">​
                   <svg class="Zi Zi--Plus FollowButton-icon" fill="currentColor" viewBox="0 0 24 24" width="1.2em"
                        height="1.2em">
@@ -157,9 +196,18 @@
                   </svg>
                   关注他
                 </span>
-            </button>
-            <button type="button" class="Button Button--gray Button--withIcon Button--withLabel"
-                    style="margin-left: 16px;flex: 1;">
+              </button>
+            {% else %}
+              <button id="unfollow" type="button" class="Button FollowButton Button--primary"
+                      style="flex: 1;background: #8590a6;color: #fff">
+                <span style="display: inline-flex; align-items: center;">​
+                  已关注
+                </span>
+              </button>
+            {% endif %}
+
+            <button type="button" class="Button Button--gray Button--withIcon Button--withLabel " data-toggle="modal"
+                    data-target="#myModal" style="margin-left: 16px;flex: 1;">
                 <span style="display: inline-flex; align-items: center;">​
                   <svg class="Zi Zi--Comments Button-zi" fill="currentColor" viewBox="0 0 24 24" width="1.2em"
                        height="1.2em">
@@ -170,6 +218,17 @@
               私信他
             </button>
           </div>
+        {% else %}
+          <div class="MemberButtonGroup AnswerAuthor-buttons">
+              <button type="button" class="Button FollowButton Button--primary Button--blue"
+                      style="flex: 1;" onclick="window.location.href='{% url 'person' 'strategy' %}'">
+                <span style="display: inline-flex; align-items: center;">​
+
+                  个人主页
+                </span>
+              </button>
+          </div>
+        {% endif %}
         </div>
       </div>
     </div>
@@ -179,30 +238,28 @@
         <div class="Card-headerText">
           被收藏
           <button type="button" class="Button-plain Button" style="font-style: inherit;color: #175199;"
-                  id="collection_total">1
+                  id="collection_total">{{ strategy.collections_count }}
           </button>
           次
         </div>
       </div>
+      {% for item in collections %}
       <div class="Card-section AnswerInfo-favlists" data-za-detail-view-path-module="CollectionList">
         <div class="AnswerInfo-favlist" data-za-detail-view-path-module="CollectionItem">
           <div class="AnswerInfo-favlist-title">
-            <a href="" target="_blank" data-za-detail-view-element_name="Collection" type="Button" title="国外"
+            <a href="{% url 'anotherone' item.id 'strategy' %}" target="_blank" data-za-detail-view-element_name="Collection" type="Button" title="国外"
                class="Button Button-plain">
-              国外
+              {{ item.username }}
             </a>
           </div>
-          <div class="AnswerInfo-favlist-author">
-              <span class="UserLink-link">
-                <a class="UserLink-link" data-za-detail-view-element_name="Author" target="_blank" href="">小巳</a>
-              </span>
-            创建
-          </div>
           <div class="AnswerInfo-favlist-followers">
-            7人关注他
+            {{ item.follow_user.count }}人关注他
           </div>
         </div>
       </div>
+      {% endfor %}
+
+
     </div>
     <!--相关攻略-->
     <div class="Card" data-za-detail-view-path-module="RelateQuestion">
@@ -212,7 +269,7 @@
       <div class="Card-section SimilarQuestions-list">
         <div class="SimilarQuestions-item">
           <a href="" target="_blank" type="button" class="Button Button-plain">
-            喀尔巴阡山脉超凶险攻略
+            大阪攻略七日游
           </a>
         </div>
       </div>
@@ -246,6 +303,143 @@
     </footer>
   </div>
 </div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true"><!-- /.modal -->
+  <div class="modal-dialog" style="width: 400px;">
+    <div class="modal-content" style="margin-top: 300px;width: 400px;">
+      <div class="modal-header">
+        <button type="button" class="close"
+                data-dismiss="modal" aria-hidden="true">
+          <svg class="Zi Zi--Close Modal-closeIcon" fill="currentColor" viewBox="0 0 24 24" width="24" height="24">
+            <path d="M13.486 12l5.208-5.207a1.048 1.048 0 0 0-.006-1.483 1.046 1.046 0 0 0-1.482-.005L12 10.514 6.793 5.305a1.048 1.048 0 0 0-1.483.005 1.046 1.046 0 0 0-.005 1.483L10.514 12l-5.208 5.207a1.048 1.048 0 0 0 .006 1.483 1.046 1.046 0 0 0 1.482.005L12 13.486l5.207 5.208a1.048 1.048 0 0 0 1.483-.006 1.046 1.046 0 0 0 .005-1.482L13.486 12z"
+                  fill-rule="evenodd"></path>
+          </svg>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">
+          发送私信
+        </h4>
+      </div>
+      <div class="modal-body" style="text-align: center">
+        <textarea name="" id="chat_message" cols="30" rows="10">
+        </textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="send_chat">
+          发送
+        </button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div>
+</div>
+<div class="modal fade" id="comment-modal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true"><!-- /.modal -->
+  <div class="modal-dialog" style="width: 688px;">
+    <div class="modal-content" style="">
+      <div class="modal-header">
+        <button type="button" class="close"
+                data-dismiss="modal" aria-hidden="true">
+          <svg class="Zi Zi--Close Modal-closeIcon" fill="currentColor" viewBox="0 0 24 24" width="24" height="24">
+            <path d="M13.486 12l5.208-5.207a1.048 1.048 0 0 0-.006-1.483 1.046 1.046 0 0 0-1.482-.005L12 10.514 6.793 5.305a1.048 1.048 0 0 0-1.483.005 1.046 1.046 0 0 0-.005 1.483L10.514 12l-5.208 5.207a1.048 1.048 0 0 0 .006 1.483 1.046 1.046 0 0 0 1.482.005L12 13.486l5.207 5.208a1.048 1.048 0 0 0 1.483-.006 1.046 1.046 0 0 0 .005-1.482L13.486 12z"
+                  fill-rule="evenodd"></path>
+          </svg>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">
+          评论
+        </h4>
+      </div>
+      <div class="modal-body" style="padding: 0 0 15px 20px;">
+        <div id="comment_box" style="height: 650px;overflow-x: hidden;
+    overflow-y: auto;">
+          {% for item in comment %}
+            <div class="comment-msg">
+              <div class="comment-img">
+                {% if item.author.avatar %}
+                  <img src="{{ MEDIA_URL }}{{ item.author.avatar }}" alt="{{ item.author.username }}" width="40"
+                       height="40">
+                {% else %}
+                  <img src="{{ MEDIA_URL }}akari.jpg" alt="{{ item.author.username }}" width="40" height="40">
+                {% endif %}
+              </div>
+              <div class="comment-body">
+                <div class="name-time">
+                  <div id="comment_name">
+                    {{ item.author.username }}
+                    {% if item.to_someone %}
+                      回复 {{ item.to_someone.username }}
+                    {% endif %}
+                  </div>
+                  <div>{{ item.create_time }}</div>
+                </div>
+                <div style="margin-bottom: 10px;">{{ item.content }}</div>
+                <div style="display: flex;justify-content: flex-end">
+                  <div style="display: none" class="reply-box">
+                    <form id="comment_form">
+                      {{ comment_form.strategy }}
+                      {{ comment_form.content }}
+                      {{ comment_form.to_someone }}
+                    </form>
+                    <button type="button" class="btn btn-primary comment_sub" id="">
+                      发布
+                    </button>
+                  </div>
+                  <button value="{{ item.author.id }}" class="reply_btn">
+                    <svg class="Zi Zi--Reply" fill="currentColor" viewBox="0 0 24 24" width="16" height="16"
+                         style="margin-right: 5px;">
+                      <path d="M22.959 17.22c-1.686-3.552-5.128-8.062-11.636-8.65-.539-.053-1.376-.436-1.376-1.561V4.678c0-.521-.635-.915-1.116-.521L1.469 10.67a1.506 1.506 0 0 0-.1 2.08s6.99 6.818 7.443 7.114c.453.295 1.136.124 1.135-.501V17a1.525 1.525 0 0 1 1.532-1.466c1.186-.139 7.597-.077 10.33 2.396 0 0 .396.257.536.257.892 0 .614-.967.614-.967z"
+                            fill-rule="evenodd"></path>
+                    </svg>
+                    回复
+                  </button>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="modal-footer"
+           style="text-align: center;display: flex;flex-direction: row;align-items: center;justify-content: space-between">
+        <form id="comment_form">
+          {{ comment_form.strategy }}
+          {{ comment_form.content }}
+          {{ comment_form.to_someone }}
+        </form>
+        <button type="button" class="btn btn-primary comment_sub" id="">
+          发布
+        </button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div>
+</div>
+<div class="modal fade" id="report-modal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true"><!-- /.modal -->
+  <div class="modal-dialog" style="width: 400px;margin-top: 200px;">
+    <div class="modal-content" style="">
+      <div class="modal-header">
+        <button type="button" class="close"
+                data-dismiss="modal" aria-hidden="true">
+          <svg class="Zi Zi--Close Modal-closeIcon" fill="currentColor" viewBox="0 0 24 24" width="24" height="24">
+            <path d="M13.486 12l5.208-5.207a1.048 1.048 0 0 0-.006-1.483 1.046 1.046 0 0 0-1.482-.005L12 10.514 6.793 5.305a1.048 1.048 0 0 0-1.483.005 1.046 1.046 0 0 0-.005 1.483L10.514 12l-5.208 5.207a1.048 1.048 0 0 0 .006 1.483 1.046 1.046 0 0 0 1.482.005L12 13.486l5.207 5.208a1.048 1.048 0 0 0 1.483-.006 1.046 1.046 0 0 0 .005-1.482L13.486 12z"
+                  fill-rule="evenodd"></path>
+          </svg>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">
+          举报用户 {{ strategy.author.username }}
+        </h4>
+      </div>
+      <div class="modal-body" style="padding: 20px 0 15px 20px;display: flex;flex-direction: column">
+        <div style="margin-bottom: 5px;">{{ report_form.reason.label_tag }}{{ report_form.reason }}</div>
+        <div style="display: flex;align-items: flex-start">
+          {{ report_form.details.label_tag }}{{ report_form.details }}</div>
+      </div>
+      <div class="modal-footer"
+           style="text-align: center;display: flex;flex-direction: row;align-items: center;justify-content: space-between">
+        <button type="button" class="btn btn-primary report_sub" id="">
+          提交
+        </button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div>
+</div>
 </body>
 <script>
   $(function () {
@@ -254,19 +448,126 @@
         url: '{% url 'like' %}',
         type: 'POST',
         data: {
+          id: {{ strategy.id }}
+        },
+        cache: false,
+        success: function (result) {
+          console.log('re', result.type);
+          value = parseInt(result.sum);
+          $('#up_total').text(value);
+          if (result.type == 'up') {
+            $('#up').addClass('Button--blue');
+            $('#up').removeClass('Button--no')
+          }else{
+            $('#up').removeClass('Button--blue');
+            $('#up').addClass('Button--no');
+          }
+        }
+      })
+    });
+    $('#collection').click(function () {
+      $.ajax({
+        url: '{% url 'collection' %}',
+        type: 'POST',
+        data: {
           id: {{ strategy.id }},
         },
         cache: false,
         success: function (result) {
-          console.log('re', result)
+          console.log('re', result);
           value = parseInt(result.sum);
-          $('#up_total').text(value);
+          $('#coll_total').text(value);
+          window.location.reload()
+        }
+      })
+    });
+    $('.hide-strategy').val({{ strategy.id }});
+    $('.comment_sub').click(function () {
+      $.ajax({
+        cache: false,
+        type: "POST",
+        url: '{% url 'comment' %}',
+        data: $(this).parent('div').find('form').serialize(),
+        async: true,
+        success: function (result) {
+          console.log('re', result);
+          alert(result.status);
+          window.location.reload();
+        }
+      })
+    });
+    $('#send_chat').click(function () {
+      $.ajax({
+        cache: false,
+        type: "POST",
+        url: '{% url 'send_chat' %}',
+        data: {
+          content: $('#chat_message').val(),
+          to_user:{{ strategy.author.id }}
+        },
+        async: true,
+        success: function (result) {
+          console.log('re', result);
+          toastr.success('发送成功');
+          $('.close').click()
+        }
+      })
+    });
+    $('.reply_btn').click(function () {
+      $('.hide-author').val($(this).val());
+      $('.reply-box').hide();
+      $(this).parent('div').find('div').css({"display": "flex"});
+      $(this).parent('div').find('div').find('form').find('#id_content').addClass('reply-content')
+    });
+    $('#follow').click(function () {
+      $.ajax({
+        cache: false,
+        type: "POST",
+        url: '{% url 'follow' %}',
+        data: {
+          follow_user_id:{{ strategy.author.id }}
+        },
+        async: true,
+        success: function (result) {
+          console.log('re', result);
+          window.location.reload()
+        }
+      })
+    });
+    $('#unfollow').click(function () {
+      $.ajax({
+        cache: false,
+        type: "POST",
+        url: '{% url 'unfollow' %}',
+        data: {
+          follow_user_id:{{ strategy.author.id }}
+        },
+        async: true,
+        success: function (result) {
+          console.log('re', result);
+          window.location.reload()
+        }
+      })
+    });
+    $('.report_sub').click(function () {
+      $.ajax({
+        cache: false,
+        type: "POST",
+        url: '{% url 'report' %}',
+        data: {
+          target_id:{{ strategy.author.id }},
+          reason: $('#id_reason').val(),
+          details: $('#id_details').val()
+        },
+        async: true,
+        success: function (result) {
+          console.log('re', result);
+          alert(result)
         }
       })
     })
   })
 </script>
-
 <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
 <script src="{% static 'home/js/bootstrap.min.js' %}"></script>
 </html>

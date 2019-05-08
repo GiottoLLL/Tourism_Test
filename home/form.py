@@ -7,6 +7,7 @@
 from django import forms
 from captcha.fields import CaptchaField
 from ckeditor_uploader.fields import RichTextUploadingFormField
+from .models import Tags
 
 
 class UserForm(forms.Form):
@@ -28,10 +29,28 @@ class RegisterForm(forms.Form):
                                 widget=forms.PasswordInput(attrs={'class': 'Input', 'placeholder': "确认密码"}))
     phone = forms.IntegerField(label="手机号", widget=forms.TextInput(attrs={'class': 'Input', 'placeholder': "手机号"}))
     sex = forms.ChoiceField(label='性别', choices=gender)
-    captcha = CaptchaField(label='验证码')
 
 
 class WriteForm(forms.Form):
     title = forms.CharField(label="标题", max_length=50,
-                               widget=forms.TextInput(attrs={'class': 'title-input', 'placeholder': "请输入标题（最多50个字）"}))
+                            widget=forms.TextInput(attrs={'class': 'title-input', 'placeholder': "请输入标题（最多50个字）"}))
     content = RichTextUploadingFormField(label='内容')
+    img = forms.ImageField(widget=forms.FileInput(attrs={'style': 'display:none'}))
+
+
+class CommentForm(forms.Form):
+    content = forms.CharField(label="评论", widget=forms.TextInput(attrs={'class': 'input-content'}))
+    strategy = forms.CharField(label="攻略", widget=forms.TextInput(attrs={'class': 'hide-strategy'}))
+    to_someone = forms.CharField(label="回复", widget=forms.TextInput(attrs={'class': 'hide-author'}))
+
+
+class ReportForm(forms.Form):
+    item = (
+        ('spam', '垃圾信息'),
+        ('unfriendly', '不友善信息'),
+        ('harm', '有害信息'),
+        ('tort', '涉嫌侵权'),
+        ('other', '其他'),
+    )
+    reason = forms.ChoiceField(label="理由", choices=item)
+    details = forms.CharField(label="详情", widget=forms.Textarea(attrs={'class': 'textarea'}))

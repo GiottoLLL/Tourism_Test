@@ -15,10 +15,17 @@
   <link rel="stylesheet" href="{% static 'home/css/font-awesome.css' %}">
   <link rel="stylesheet" href="{% static 'home/css/animate.css' %}">
   <link rel="stylesheet" href="{% static 'home/css/app.css' %}">
+  <link rel="stylesheet" href="{% static 'home/css/toastr.min.css' %}">
   <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
   <script src="{% static 'home/js/jquery.min.js' %}"></script>
   <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
-<script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+  <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+  <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+  <script src="{% static 'home/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'home/js/toastr.min.js' %}"></script>
+  <script type="text/javascript">
+         toastr.options.positionClass = 'toast-top-center';
+  </script>
 </head>
 <body>
 <form action="" method="POST" name="strategy" enctype="multipart/form-data">
@@ -26,7 +33,7 @@
   <div class="navbar">
     <div class="navbar-logo">
       <a href="/">
-      <div class="logo-text">旅</div>
+        <div class="logo-text">旅</div>
       </a>
     </div>
     <div class="navbar-title">
@@ -34,10 +41,11 @@
     </div>
     <div class="navbar-functionality">
       <div class="publish">
-        <div class="publish-button" id="publish_btn" onclick="pub()"><span>发布</span><span class="caret"></span></div>
+        <div class="publish-button" id="publish_btn" style="cursor: pointer;"><span>发布</span><span class="caret"></span></div>
       </div>
       <div class="dropdown" style="display: flex;flex-direction: row;align-items: center">
-        <a href="" style="font-size: 16px;color: #b3b3b3;padding: 4px 16px;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+        <a href="" style="font-size: 16px;color: #b3b3b3;padding: 4px 16px;" class="dropdown-toggle"
+           data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
           <span class="glyphicon glyphicon-menu-hamburger"></span>
         </a>
         <ul class="dropdown-menu" style="left: -20px;">
@@ -47,26 +55,76 @@
     </div>
   </div>
   <div class="content">
+    <div class="img-box" onclick="$('#id_img').click()">
+      <label for="" class="cli-hide">
+        <svg class="Zi Zi--Camera WriteCover-uploadIcon" fill="currentColor" viewBox="0 0 24 24" width="42" height="42"><path d="M20.094 6S22 6 22 8v10.017S22 20 19 20H4.036S2 20 2 18V7.967S2 6 4 6h3s1-2 2-2h6c1 0 2 2 2 2h3.094zM12 16a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7zm0 1.5a5 5 0 1 0-.001-10.001A5 5 0 0 0 12 17.5zm7.5-8a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" fill-rule="evenodd"></path>
+        </svg>
+      </label>
+      <span style="font-size: 18px;" class="cli-hide">添加题图</span>
+      <div id="image-holder"></div>
+    </div>
+    {{ write_form.img }}
     {{ write_form.title }}
     {{ write_form.content }}
+    <span>{{ message }}</span>
   </div>
 </form>
 </body>
 <script type="text/javascript">
-    function index() {
-      $(location).attr('href', 'index');
+  function index() {
+    $(location).attr('href', 'index');
+  }
+  function pub() {
+    var len = $("#id_title").val().length
+    var content = CKEDITOR.instances.id_content.document.getBody().getText().length
+    if (len >= 5 && content >= 10) {
+      document.strategy.submit()
+    } else {
+      alert("发布失败，标题少于5个字或内容少于10个字")
     }
-    function pub() {
-        var len = $("#id_title").val().length
-        var content=CKEDITOR.instances.id_content.document.getBody().getText().length
-        if(len>=5 && content>=10){
-          document.strategy.submit()
-        }else {
-          alert("发布失败，标题少于5个字或内容少于10个字")
-        }
+  }
+  $(function () {
+    $('#id_img').on('change', function () {
+      if (typeof(FileReader) != "undfined") {
+        var image_holder = $('#image-holder');
+        image_holder.empty();
+        var reader = new FileReader();
+        reader.onload = function (e) {
+          $("<img />", {
+            "src": e.target.result,
+            "class": "img-read"
+          }).appendTo(image_holder);
+          $(".cli-hide").hide()
+        };
+        image_holder.show();
+        reader.readAsDataURL($(this)[0].files[0]);
+      } else {
+        alert('你的浏览器不支持FileReader.');
       }
-
+    });
+    $("#publish_btn").click(function () {
+      var len = $("#id_title").val().length;
+      var content = CKEDITOR.instances.id_content.document.getBody().getText().length;
+      if (len >= 3 && content >= 10) {
+        document.strategy.submit();
+{#        $.ajax({#}
+{#          cache: false,#}
+{#          type: "POST",#}
+{#          url: '{% url 'write' %}',#}
+{#          async: true,#}
+{#          processData: false,#}
+{#          contentType: false,#}
+{#          data: $('#strategy').serialize(),#}
+{#          success: function (result) {#}
+{#            console.log('re', result.status);#}
+{#            window.location.reload()#}
+{#          }#}
+{#        })#}
+      } else {
+        alert("发布失败，标题少于3个字或内容少于10个字")
+      }
+    })
+  })
 </script>
-<!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
-<script src="{% static 'home/js/bootstrap.min.js' %}"></script>
+
 </html>

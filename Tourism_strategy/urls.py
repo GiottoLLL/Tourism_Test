@@ -25,5 +25,6 @@ urlpatterns = [
     path('', include('home.urls')),
     path('', include('captcha.urls')),
     path('', include('ckeditor_uploader.urls')),
+    path('', include('area_picker.urls'))
 ]
 static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

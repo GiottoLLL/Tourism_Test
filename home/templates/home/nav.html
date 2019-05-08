@@ -1,0 +1,101 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid container" style="width: 1032px;">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="{% url 'index' %}">旅途</a>
+    </div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="{% url 'recommend' %}">推荐</a></li>
+        <li><a href="#">关注</a></li>
+        <li><a href="{% url 'hot' %}">热门</a></li>
+        <!-- 下拉菜单 -->
+        <!--<li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">One more separated link</a></li>
+          </ul>
+        </li>-->
+      </ul>
+      <form class="navbar-form navbar-left" action="{% url 'search' %}">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="输入关键字"  name="q">
+        </div>
+        <button type="submit" class="btn btn-default">查找</button>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+        <li style="font-size: 20px;color: #8590a6;">
+          <a href="{% url 'person' 'strategy' %}">
+            <span style="display: inline-flex; align-items: center;">
+            <svg class="Zi Zi--Profile" fill="currentColor" viewBox="0 0 24 24" width="16" height="16"><path
+                    d="M15.417 12.923c-.376.653-.837 1.281-.763 1.863.292 2.273 5.562 1.77 6.78 3.048.566.595.566.664.566 4.164-6.611-.07-13.363 0-20 0 .027-3.5 0-3.478.62-4.164 1.303-1.44 6.581-.715 6.78-3.133.045-.545-.38-1.114-.763-1.778C6.511 9.233 5.697 2 12 2s5.422 7.443 3.417 10.923z"
+                    fill-rule="evenodd"></path>
+            </svg>
+          </span>
+          </a>
+        </li>
+        <li style="font-size: 20px;color: #8590a6;">
+          <a href="{% url 'edit' %}">
+            <span style="display: inline-flex; align-items: center;">
+            <svg viewBox="0 0 12 12" class="Icon ModifyButton-icon Icon--modify" width="12" height="16"
+                 aria-hidden="true" style="height: 16px; width: 12px;"><title></title><g><path
+                    d="M.423 10.32L0 12l1.667-.474 1.55-.44-2.4-2.33-.394 1.564zM10.153.233c-.327-.318-.85-.31-1.17.018l-.793.817 2.49 2.414.792-.814c.318-.328.312-.852-.017-1.17l-1.3-1.263zM3.84 10.536L1.35 8.122l6.265-6.46 2.49 2.414-6.265 6.46z"
+                    fill-rule="evenodd"></path></g>
+      </svg>
+          </span>
+          </a>
+        </li>
+        <li style="font-size: 20px;color: #8590a6;">
+          <a href="{% url 'open_chat' %}">
+            <span style="display: inline-flex; align-items: center;">
+            ​<svg class="Zi Zi--Comments" fill="currentColor" viewBox="0 0 24 24" width="22" height="22">
+            <path d="M11 2c5.571 0 9 4.335 9 8 0 6-6.475 9.764-11.481 8.022-.315-.07-.379-.124-.78.078-1.455.54-2.413.921-3.525 1.122-.483.087-.916-.25-.588-.581 0 0 .677-.417.842-1.904.064-.351-.14-.879-.454-1.171A8.833 8.833 0 0 1 2 10c0-3.87 3.394-8 9-8zm10.14 9.628c.758.988.86 2.009.86 3.15 0 1.195-.619 3.11-1.368 3.938-.209.23-.354.467-.308.722.12 1.073.614 1.501.614 1.501.237.239-.188.562-.537.5-.803-.146-1.495-.42-2.546-.811-.29-.146-.336-.106-.563-.057-2.043.711-4.398.475-6.083-.927 5.965-.524 8.727-3.03 9.93-8.016z"
+                  fill-rule="evenodd"></path>
+            </svg>
+          </span>
+            {% if new %}
+              <span class="Messages-count">{{ new }}</span>
+            {% endif %}
+          </a>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+             aria-expanded="false" style="font-size: 16px;">
+          {% if self == 0 %}
+            <img src="{{ MEDIA_URL }}{{ self_avatar }}" alt="" width="30" height="30" style="object-fit: cover;">
+          {% elif user.avatar %}
+              <img src="{{ MEDIA_URL }}{{ user.avatar }}" alt="" width="30" height="30" style="object-fit: cover;">
+          {% else %}
+              <img src="{{ MEDIA_URL }}akari.jpg" alt="" width="30" height="30" style="object-fit: cover;">
+          {% endif %}
+
+
+
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="{% url 'person' 'strategy' %}">我的主页</a></li>
+            <li><a href="{% url 'edit' %}">修改资料</a></li>
+            <li role="separator" class="divider"></li>
+            <li>
+              <a href="{% url 'logout' %}">退出</a></li>
+          </ul>
+        </li>
+      </ul>
+      <script></script>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>

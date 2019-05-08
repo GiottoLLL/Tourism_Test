@@ -76,6 +76,7 @@
     position: relative;
     margin-top: 12px;
   }
+
   .login-options{
     margin-top: 12px;
     height:20px;
@@ -115,4 +116,26 @@
   .SignContainer-switch span{
     color: #175199;
     cursor: pointer;
+  }
+  .select-btn{
+    border:1px solid lightgrey;
+    background-color: #fff;
+  }
+  .tag-item{
+    border:none;
+    background: #fff;
+    color: #0084ff;
+    display: inline-block;
+    font-size: 16px;
+  }
+  .tag-item-minus{
+    border:none;
+    background: #fff;
+    color: red;
+    display: inline-block;
+    font-size: 16px;
+  }
+  .tags-picked{
+    font-size: 16px;
+    color: #0084ff;
   }
